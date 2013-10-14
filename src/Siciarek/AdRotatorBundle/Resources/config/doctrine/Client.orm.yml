@@ -1,0 +1,36 @@
+Siciarek\AdRotatorBundle\Entity\Client:
+    type: entity
+    repositoryClass: ClientRepository
+    table: sar_client
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        enabled:
+            type: boolean
+            nullable: true
+        name: ~
+        email: ~
+        phone:
+            length: 32
+        invoice_name: ~
+        invoice_nip:
+            type: nip
+        invoice_address:
+            type: text
+        created_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    oneToMany:
+        advertisements:
+            targetEntity: Advertisement
+            mappedBy: client

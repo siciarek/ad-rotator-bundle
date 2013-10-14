@@ -1,0 +1,67 @@
+Sale: Sprzedaż
+Clients: Klienci
+Ad types: Typy reklamy
+Prices: Warianty reklamy
+
+Client List: Klienci
+Advertisement Type List: Typy reklam
+Advertisement Price List: Warianty reklam
+
+day: dzień
+week: tydzień
+month: miesiąc
+
+tabs:
+    price:
+        price: Wariant
+    sale:
+        sale: Reklama
+        displaying_params: Parametry wyświetlania
+        url: URL
+    client:
+        basic_data: Dane podstawowe
+        invoice_data: Dane do faktury
+
+help:
+    sale:
+        title: 'Jeżeli tytuł nie zostanie podany, wprowadzona zostanie nazwa klienta.'
+        path: 'To pole zmieniamy tylko w przypadku gdy klient chce serwować plik graficzny z własnej lokalizacji.'
+
+general:
+    actions: Czynności
+
+type:
+    id: Numer
+    name: Nazwa
+    definition: Właściwości
+
+price:
+    description: Opis
+    mainpage: Str. główna
+    subpages: Podstrony
+    duration: Ilość jedn. czasu
+    period: Jednostka czasu
+    price: Cena
+
+client:
+    enabled: Aktywny
+    name: Nazwa
+    email: Email
+    phone: Telefon
+    created_at: Data rejestracji
+    invoice_name: Nazwa
+    invoice_nip: NIP
+    invoice_address: Adres
+
+sale:
+    enabled: Włączona
+    type: Typ
+    option: Wariant
+    client: Klient
+    title: Tytuł
+    leads_to: Prowadzi do
+    file: Plik
+    exclusive: Na wyłączność
+    everlasting: Wieczna
+    starts_at: Data włączenia
+    path: Ścieżka

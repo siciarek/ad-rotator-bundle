@@ -1,0 +1,84 @@
+{% spaceless %}
+    {% if ad != null %}
+        {% set width = ad.params.width %}
+        {% set height = ad.params.height %}
+        {% set scriptaccess = (ad.href == null) ? 'always' : 'never' %}
+        {% if ad.href != null %}<a class="a-link-{{ ad.type }}" href="{{ ad.href }}" title="{{ ad.title }}" target="_blank">{% endif %}<img
+                {% if ad.filetype == 'flash' %}style="display:none"{% endif %} class="a-image-{{ ad.type }}" width="{{ width }}" height="{{ height }}" style="width:{{ width }}px;height:{{ height }}px" src="{{ ad.src }}" alt="{{ ad.title }}"
+                /><object {% if ad.filetype == 'image' %}style="display:none"{% endif %} class="a-movie-{{ ad.type }}" width="{{ width }}" height="{{ height }}" align="middle" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+                <param name="allowFullScreen" value="false">
+                <param name="movie" value="{{ ad.src }}">
+                <param name="quality" value="high">
+                <param name="scale" value="noscale">
+                <param name="salign" value="lt">
+                <param name="wmode" value="opaque">
+                <param name="allowScriptAccess" value="{{ scriptaccess }}">
+                <embed width="{{ width }}" height="{{ height }}" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" allowscriptaccess="{{ scriptaccess }}" allowfullscreen="false" salign="LT" scale="noscale" wmode="opaque" quality="high" src="{{ ad.src }}"/>
+            </object>
+        {% if ad.href != null %}</a>{% endif %}
+
+        <script>
+            //<![CDATA[
+            if (typeof jQuery === 'undefined') {
+                document.write('<scr' + 'ipt src="//code.jquery.com/jquery.js"></scr' + 'ipt>');
+            }
+            //]]>
+        </script>
+
+        <script>
+            //<![CDATA[
+            $(document).ready(function () {
+                if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                    if (typeof rotateA{{ ad.type }} === 'undefined') {
+                        rotateA{{ ad.type }} = function () {
+
+                            var data = null;
+
+                            $.ajax({
+                                dataType: 'json',
+                                url: '{{ path('_sar_data', { type: ad.type }) }}/' + $('.a-image-{{ ad.type }}').length,
+                                async: false,
+                                success: function (response) {
+                                    data = response;
+                                }
+                            });
+
+                            $('.a-image-{{ ad.type }}').each(function (i, e) {
+                                $(e).show();
+                                $($('.a-movie-{{ ad.type }}').get(i)).hide();
+
+                                if (data[i].filetype == 'flash') {
+                                    $(e).hide();
+
+                                    var movie = $('.a-movie-1').get(i);
+
+                                    var object_src = $(movie).find('param[name="movie"]');
+                                    var embed = $(movie).find('embed');
+                                    var object_scriptaccess = $(movie).find('param[name="allowScriptAccess"]');
+
+                                    var scriptaccess = (data[i].href === null) ? 'always' : 'never';
+
+                                    object_src.attr('value', data[i].src);
+                                    embed.attr('src', data[i].src)
+                                    object_scriptaccess.attr('value', scriptaccess);
+                                    embed.attr('allowscriptaccess', scriptaccess);
+
+                                    $($('.a-movie-{{ ad.type }}').get(i)).show();
+                                }
+                                else {
+                                    $(e).attr('src', data[i].src).attr('alt', data[i].title);
+                                    $($('.a-link-{{ ad.type }}').get(i)).attr('href', data[i].href).attr('title', data[i].title);
+                                }
+                            });
+                        };
+
+                        if(parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                            setInterval(rotateA{{ ad.type }}, parseInt('{{ ad.params.rotateAfter * 1000 }}'));
+                        }
+                    }
+                }
+            });
+            //]]>
+        </script>
+    {% endif %}
+{% endspaceless %}

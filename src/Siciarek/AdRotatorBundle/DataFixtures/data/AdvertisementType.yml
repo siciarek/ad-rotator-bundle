@@ -1,0 +1,28 @@
+---
+# http://designerstoolbox.com/designresources/banners/
+AdvertisementType:
+# Standard Web Banners
+    - { id: 1, name: 468 x 60 Full Banner, definition: { width: 468, height: 60, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 2, name: 728 x 90 Leaderboard, definition: { width: 728, height: 90, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 3, name: 336 x 280 Square, definition: { width: 336, height: 280, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 4, name: 300 x 250 Square, definition: { width: 300, height: 250, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 5, name: 250 x 250 Square, definition: { width: 250, height: 250, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 6, name: 160 x 600 Skyscraper, definition: { width: 160, height: 600, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 7, name: 120 x 600 Skyscraper, definition: { width: 120, height: 600, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 8, name: 120 x 240 Small Skyscraper, definition: { width: 120, height: 240, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 9, name: 240 x 400 Fat Skyscraper, definition: { width: 240, height: 400, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 10, name: 234 x 60 Half Banner, definition: { width: 234, height: 60, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 11, name: 180 x 150 Rectangle, definition: { width: 180, height: 150, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 12, name: 125 x 125 Square Button, definition: { width: 125, height: 125, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 13, name: 120 x 90 Button, definition: { width: 120, height: 90, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 14, name: 120 x 60 Button, definition: { width: 120, height: 60, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 15, name: 88 x 31 Button, definition: { width: 88, height: 31, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+# Common, But Not Standard Banner Sizes
+    - { id: 16, name: 120 x 30 Button, definition: { width: 120, height: 30, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 17, name: 230 x 33 Small Banner, definition: { width: 230, height: 33, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 18, name: 728 x 210 Large Leaderboard, definition: { width: 728, height: 210, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 19, name: 720 x 300 Large Leaderboard, definition: { width: 720, height: 300, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 20, name: 500 x 350 Pop-up, definition: { width: 500, height: 350, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 21, name: 550 x 480 Pop-up, definition: { width: 550, height: 480, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 22, name: 300 x 600 Half Page Banner, definition: { width: 300, height: 600, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
+    - { id: 23, name: 94 x 15 Blog Button, definition: { width: 94, height: 15, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }

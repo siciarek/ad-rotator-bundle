@@ -1,0 +1,13 @@
+imports:
+    - { resource: admin.yml }
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        types:
+            nip: Siciarek\AdRotatorBundle\Doctrine\DBAL\Types\NipType
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    SiciarekAdRotatorBundle: ~

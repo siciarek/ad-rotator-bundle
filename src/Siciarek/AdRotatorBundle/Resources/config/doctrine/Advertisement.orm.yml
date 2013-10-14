@@ -1,0 +1,76 @@
+Siciarek\AdRotatorBundle\Entity\Advertisement:
+    type: entity
+    repositoryClass: AdvertisementRepository
+    table: sar_advertisement
+    namedQueries:
+        available: |
+            SELECT a, t, c
+                FROM __CLASS__ a
+                LEFT JOIN a.client c
+                LEFT JOIN a.type t
+            WHERE
+                a.enabled = true
+            AND (a.starts_at <= :now AND a.expires_at >= :now OR a.everlasting = true)
+            AND c.enabled = true
+            AND t.id = :type
+
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        title: ~
+        price:
+            type: decimal
+            precision: 10
+            scale: 2
+            nullable: true
+        displayed:
+            type: integer
+        clicked:
+            type: integer
+        slug:
+            gedmo:
+                slug:
+                    fields:
+                        - title
+        path: ~
+        leads_to:
+            nullable: true
+        enabled:
+            type: boolean
+        exclusive:
+            type: boolean
+        everlasting:
+            type: boolean
+        starts_at:
+            type: datetime
+            nullable: true
+        expires_at:
+            type: datetime
+            nullable: true
+        frequency:
+            type: integer
+        created_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updated_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        option:
+            targetEntity: AdvertisementPrice
+        type:
+            targetEntity: AdvertisementType
+            inversedBy: advertisements
+        client:
+            targetEntity: Client
+            inversedBy: advertisements
+

@@ -1,0 +1,42 @@
+services:
+
+# SonataAdminBundle configuration
+
+    sar.admin.client:
+        class: Siciarek\AdRotatorBundle\Admin\ClientAdmin
+        tags: [{ name: sonata.admin, manager_type: orm, label: Clients }]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\Client, SonataAdminBundle:CRUD ]
+
+    sar.admin.advertisement:
+        class: Siciarek\AdRotatorBundle\Admin\AdvertisementAdmin
+        tags: [{ name: sonata.admin, manager_type: orm, label: Sale }]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\Advertisement, SonataAdminBundle:CRUD ]
+
+    sar.admin.advertisement_type:
+        class: Siciarek\AdRotatorBundle\Admin\AdvertisementTypeAdmin
+        tags: [{ name: sonata.admin, manager_type: orm, label: Ad types }]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdvertisementType, SonataAdminBundle:CRUD ]
+
+    sar.admin.advertisement_price:
+        class: Siciarek\AdRotatorBundle\Admin\AdvertisementPriceAdmin
+        tags: [{ name: sonata.admin, manager_type: orm, label: Prices }]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdvertisementPrice, SonataAdminBundle:CRUD ]
+
+
+sonata_admin:
+    dashboard:
+        blocks:
+            -
+                position: left
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups:
+                        - adrotator
+        groups:
+            adrotator:
+                label: Ad Rotator
+                items:
+                    - sar.admin.advertisement
+                    - sar.admin.client
+                    - sar.admin.advertisement_type
+                    - sar.admin.advertisement_price

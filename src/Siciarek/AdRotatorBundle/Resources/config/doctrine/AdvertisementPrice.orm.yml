@@ -1,0 +1,29 @@
+Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
+    type: entity
+    repositoryClass: AdvertisementPriceRepository
+    table: sar_advertisement_price
+    namedQueries:
+        ordered: SELECT o FROM __CLASS__ o ORDER BY o.price DESC
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        mainpage:
+            type: boolean
+        subpages:
+            type: boolean
+        duration:
+            type: integer
+            unsigned: true
+        period: ~
+        price:
+            type: decimal
+            precision: 10
+            scale: 2
+
+    manyToMany:
+        type:
+            targetEntity: AdvertisementType
+            inversedBy: prices
