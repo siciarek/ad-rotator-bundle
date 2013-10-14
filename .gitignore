@@ -30,14 +30,8 @@ app/bootstrap*
 /vendor
 */logs/*
 */cache/*
-web/uploads*
-web/bundles
-web/js
-web/css
-web/images
-web/fonts
-web/docs
-web/behat
+/app
+/web
 
 # Configuration files
 app/config/parameters.ini
