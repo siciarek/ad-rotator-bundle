@@ -1,7 +1,7 @@
 {
     "name": "siciarek/adrotator",
     "type": "library",
-    "description": "Bunch of utilities for Symfony2",
+    "description": "SonataAdminBundle based Ad Rotator",
     "keywords": [
         "ads",
         "ads rotator",
@@ -38,6 +38,7 @@
             "Siciarek\\AdRotator": "src/"
         }
     },
+    "target-dir": "Siciarek/AdRotator",
     "bin": [
 
     ]
