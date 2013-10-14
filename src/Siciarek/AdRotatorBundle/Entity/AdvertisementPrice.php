@@ -10,10 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 class AdvertisementPrice
 {
 
+    const WEEK = 'week';
+    const DAY = 'day';
+
     public function __toString() {
         if($this->getId() !== null) {
             return sprintf("%s (%s × %s) %s",
-                $this->getPrice() > 0 ? sprintf('%0.2f zł', $this->getPrice()) : 'bezpłatna',
+                $this->getPrice() > 0 ? sprintf('%0.2f zł', $this->getPrice()) : 'free',
                 $this->getPeriod(),
                 $this->getDuration(),
                 $this->getDescription()
@@ -29,21 +32,26 @@ class AdvertisementPrice
     {
         $this->setMainpage(true);
         $this->setSubpages(false);
+        $this->setDuration(1);
         $this->setPrice(0);
+        $this->setPeriod(self::WEEK);
         $this->type = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getDescription() {
         $temp = array();
         if($this->getMainpage() === true) {
-            $temp[] = 'strona główna';
+            $temp[] = 'mainpage';
         }
         if($this->getSubpages() === true) {
-            $temp[] = 'wszystkie podstrony';
+            $temp[] = 'subpages';
         }
 
         return implode(' + ', $temp);
     }
+
+    //////////////////////////////////////
+
     /**
      * @var integer
      */

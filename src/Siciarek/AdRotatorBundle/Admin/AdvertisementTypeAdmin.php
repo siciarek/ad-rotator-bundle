@@ -84,6 +84,7 @@ class AdvertisementTypeAdmin extends DefaultAdmin
             ))
             ->add('definition', null, array(
                 'label' => 'type.definition',
+                'template' => 'SiciarekAdRotatorBundle:CRUD:list_array.html.twig',
             ))
             ->add('prices')
             ->add('_action', 'actions', array(

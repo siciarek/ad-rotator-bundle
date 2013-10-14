@@ -2,6 +2,8 @@
 
 namespace Siciarek\AdRotatorBundle\Admin;
 
+use Doctrine\ORM\EntityManager;
+use Siciarek\AdRotatorBundle\Entity\AdvertisementPrice;
 use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -14,34 +16,32 @@ class AdvertisementPriceAdmin extends DefaultAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $periods = array(
-            'day',
-            'week',
-            'month',
+            AdvertisementPrice::WEEK,
+            AdvertisementPrice::DAY,
         );
 
         $formMapper
             ->with('tabs.price.price')
-                ->add('mainpage', null, array(
-                    'label' => 'price.mainpage',
-                    'required' => false,
-                ))
-                ->add('subpages', null, array(
-                    'label' => 'price.subpages',
-                    'required' => false,
-                ))
-                ->add('period', 'sonata_type_translatable_choice', array(
-                    'label' => 'price.period',
-                    'choices' => array_combine($periods, $periods),
-                    'preferred_choices' => array($periods[1]),
-                    'catalogue' => 'SiciarekAdRotator'
-                ))
-                ->add('duration', null, array(
-                    'label' => 'price.duration',
-                ))
-                ->add('price', 'money', array(
-                    'label' => 'price.price',
-                    'currency' => 'PLN'
-                ))
+            ->add('mainpage', null, array(
+                'label' => 'price.mainpage',
+                'required' => false,
+            ))
+            ->add('subpages', null, array(
+                'label' => 'price.subpages',
+                'required' => false,
+            ))
+            ->add('price', 'money', array(
+                'label' => 'price.price',
+                'currency' => 'PLN'
+            ))
+            ->add('period', 'sonata_type_translatable_choice', array(
+                'label' => 'price.period',
+                'choices' => array_combine($periods, $periods),
+                'catalogue' => 'SiciarekAdRotator'
+            ))
+            ->add('duration', null, array(
+                'label' => 'price.duration',
+            ))
         ;
     }
 
@@ -71,10 +71,37 @@ class AdvertisementPriceAdmin extends DefaultAdmin
             ->add('_action', 'actions', array(
                 'label' => 'general.actions',
                 'actions' => array(
-                    'edit'   => array(),
+                    'edit' => array(),
                     'delete' => array()
                 ),
             ));
     }
 
+    public function prePersist($object)
+    {
+        /**
+         * @var AdvertisementPrice $object
+         */
+
+        /**
+         * @var EntityManager $em
+         */
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
+        $typesRepo = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType');
+
+        $types = $typesRepo->findAll();
+
+        /**
+         * @var AdvertisementType $t
+         */
+        foreach($types as $t) {
+
+            if($object->getType()->contains($t)) {
+                continue;
+            }
+
+            $t->addPrice($object);
+            $em->persist($t);
+        }
+    }
 }
