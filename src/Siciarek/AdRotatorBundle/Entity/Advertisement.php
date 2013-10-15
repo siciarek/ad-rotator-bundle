@@ -67,6 +67,17 @@ class Advertisement extends FileableEntity
         $this->advertisements = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    protected $uploadRootDir;
+
+    public function setUploadRootDir($root) {
+        $this->uploadRootDir = $root . $this->getUploadDir();
+    }
+
+    protected function getUploadRootDir()
+    {
+        return $this->uploadRootDir;
+    }
+
     public function getAbsolutePath()
     {
         return null === $this->getPath()
@@ -83,7 +94,7 @@ class Advertisement extends FileableEntity
 
     public function getUploadDir()
     {
-        return 'uploads/sar';
+        return 'uploads/sar/' . $this->getClient()->getId();
     }
 
 //////////////////////////////////////////////////////////

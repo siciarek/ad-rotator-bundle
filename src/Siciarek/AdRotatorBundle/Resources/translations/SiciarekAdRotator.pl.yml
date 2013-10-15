@@ -11,6 +11,12 @@ day: dzień
 week: tydzień
 month: miesiąc
 
+errors:
+    no_image_file: Nie podano pliku graficznego ani odnośnika.
+    invalid_file_format: Obsługiwane rozszerzenia (EXTS), ten plik ma (EXT).
+    invalid_file_content: Niewłaściwa zawartość pliku.
+    invalid_image_size: Wymagany rozmiar (WIDTH x HEIGHT), ten plik ma (XWIDTH x XHEIGHT).
+
 tabs:
     price:
         price: Wariant

@@ -216,19 +216,22 @@ IMG;
         $path = $object->getPath();
 
         if (!preg_match('|^https?://|', $path)) {
+            $object->setUploadRootDir($this->getConfigurationPool()->getContainer()->get('kernel')->getRootDir() . '/../web/');
             $object->upload('setPath');
         }
     }
 
     public function validate(ErrorElement $errorElement, $object)
     {
+        $translator = $this->getConfigurationPool()->getContainer()->get('translator');
+
         /**
          * @var UploadedFile $file
          */
         $file = $object->getUploadedFile();
 
         if (!($file instanceof UploadedFile) and $object->getPath() === null) {
-            $errorElement->addViolation('Nid podano pliku graficznego ani odnośnika.');
+            $errorElement->addViolation($translator->trans('errors.no_image_file', array(), 'SiciarekAdRotator'));
         }
 
         if ($file instanceof UploadedFile) {
@@ -240,9 +243,10 @@ IMG;
 
             $ext = $file->getClientOriginalExtension();
 
-            // Sprawdzenie rozszerzenia:
+            // Check file extension:
             if (!in_array($ext, $extensions)) {
-                $errorElement->addViolation("Obsługiwane rozszerzenia (" . implode(', ', $extensions) . "), ten plik ma (${ext}).");
+                $msg = $translator->trans('errors.invalid_file_format', array('EXTS' => implode(', ', $extensions), 'EXT' => $ext), 'SiciarekAdRotator');
+                $errorElement->addViolation($msg);
                 return;
             }
 
@@ -250,7 +254,7 @@ IMG;
             $imageinfo = getimagesize($bin);
 
             if ($ext === 'svg') {
-                // @ - Przechwycenie ostrzerzenia o niewłaściwym formacie pliku:
+                // @ - Suppress warning about invalid file content:
                 @$xml = simplexml_load_file($bin);
 
                 if ($xml instanceof \SimpleXMLElement) {
@@ -271,7 +275,8 @@ IMG;
             }
 
             if (!is_array($imageinfo)) {
-                $msg = sprintf('Niewłaściwa zawartość pliku.');
+                $msg = $translator->trans('errors.invalid_file_content', array(), 'SiciarekAdRotator');
+                $msg = sprintf($msg);
                 $errorElement->addViolation($msg);
                 return;
             }
@@ -279,9 +284,12 @@ IMG;
             $expected = array($width, $height);
             $given = array($imageinfo[0], $imageinfo[1]);
 
-            // Sprawdzenie rozmiarów
+            // Check image width and height:
             if ($expected !== $given) {
-                $msg = sprintf('Wymagany rozmiar (%dx%d), ten plik ma (%dx%d).', $width, $height, $imageinfo[0], $imageinfo[1]);
+                $msg = $translator->trans('errors.invalid_image_size', array(
+                    'WIDTH' => $width, 'HEIGHT' => $height,
+                    'XWIDTH' => $imageinfo[0], 'XHEIGHT' => $imageinfo[1],
+                ), 'SiciarekAdRotator');
                 $errorElement->addViolation($msg);
             }
         }
