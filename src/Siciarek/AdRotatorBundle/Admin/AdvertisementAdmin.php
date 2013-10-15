@@ -5,6 +5,7 @@ namespace Siciarek\AdRotatorBundle\Admin;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
+use Siciarek\AdRotatorBundle\Form\Type\DatePickerType;
 use Siciarek\AdRotatorBundle\Entity\Advertisement;
 use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -157,7 +158,7 @@ IMG;
                     'label' => 'sale.everlasting',
                     'required' => false,
                 ))
-                ->add('starts_at', 'date_picker', array(
+                ->add('starts_at', new DatePickerType(), array(
                     'label' => 'sale.starts_at',
                     'required' => false,
                 ))

@@ -22,10 +22,7 @@ abstract class BaseFixture extends AbstractFixture implements ContainerAwareInte
     protected $count = 1;
     protected $data_dir;
     protected $test = false;
-    /**
-     * @var \Faker\Factory
-     */
-    protected $faker;
+
 
     protected function getData($key, $fileName = null)
     {
@@ -62,44 +59,5 @@ abstract class BaseFixture extends AbstractFixture implements ContainerAwareInte
         $this->data_dir  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
         $this->container = $container;
         $this->em        = $this->container->get('doctrine.orm.entity_manager');
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-        $this->faker =  \Faker\Factory::create('pl_PL');
     }
-
-    /**
-     * Function to randomize elements by weight
-     * @param array $weightedValues key => weight
-     * @return int|string
-     */
-    protected function wrand($weightedValues)
-    {
-        $rand = mt_rand(1, (int)array_sum($weightedValues));
-
-        foreach ($weightedValues as $key => $value) {
-            $rand -= $value;
-            if ($rand <= 0) {
-                return $key;
-            }
-        }
-
-        return false;
-    }
-
-    // Random date between date range
-    function randomDate($startDate, $endDate)
-    {
-        // Convert to timestamps
-        $min = strtotime($startDate);
-        $max = strtotime($endDate);
-
-        // Generate random number using above bounds
-        $randStamp = rand($min, $max);
-
-        // Convert back to desired date format
-        $dateTime = new \DateTime();
-        $dateTime->setTimestamp($randStamp);
-
-        return $dateTime;
-    }
-
 }
