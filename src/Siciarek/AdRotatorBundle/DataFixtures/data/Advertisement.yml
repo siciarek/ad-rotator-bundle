@@ -22,7 +22,7 @@ Advertisement:
         option: 1
         client: Hello World!
         title: ~
-        leads_to: ~
+        leads_to: http://yahoo.com
         uploaded_file: 01.png
     -
         enabled: true

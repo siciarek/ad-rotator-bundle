@@ -65,8 +65,10 @@
                         if (elem.hasClass('flash')) {
                             var slug = elem.attr('data-var');
                             var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
+
                             $.ajax({
                                 url: url,
+                                async: false,
                                 success: function(result){
 
                                 }

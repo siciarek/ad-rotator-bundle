@@ -18,7 +18,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdvertisementAdmin extends DefaultAdmin
 {
-    protected function configureRoutes(RouteCollection $collection) {
+    protected function configureRoutes(RouteCollection $collection)
+    {
 
         /**
          * @var EntityManager $em
@@ -27,10 +28,9 @@ class AdvertisementAdmin extends DefaultAdmin
 
         $types_count = intval($em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')
             ->createNamedQuery('count')
-            ->getSingleScalarResult())
-        ;
+            ->getSingleScalarResult());
 
-        if($types_count == 0) {
+        if ($types_count == 0) {
             // $collection->clearExcept(array('list'));
         }
     }
@@ -51,12 +51,12 @@ class AdvertisementAdmin extends DefaultAdmin
                 $src = implode('/', $temp);
             }
 
-            if(preg_match('/\.swf$/', $src) > 0) {
+            if (preg_match('/\.swf$/', $src) > 0) {
                 $params = $this->getSubject()->getType()->getDefinition();
                 $width = $params['width'];
                 $height = $params['height'];
 
-$fmt =<<<IMG
+                $fmt = <<<IMG
 <object width="%d" height="%d" align="middle" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
     <param name="allowFullScreen" value="false">
     <param name="movie" value="%s">
@@ -70,8 +70,7 @@ $fmt =<<<IMG
 IMG;
                 $img = sprintf($fmt, $width, $height, $src, $width, $height, $src);
 
-            }
-            else {
+            } else {
                 $img = sprintf('<img style="border:1px solid silver" src="%s"/>', $src);
             }
         }
@@ -115,61 +114,61 @@ IMG;
 
         $formMapper
             ->with('tabs.sale.sale')
-                ->add('enabled', null, array(
-                    'label' => 'sale.enabled',
-                    'required' => false,
-                ))
-                ->add('type', null, array(
-                    'label' => 'sale.type',
-                    'required' => true,
-                    'attr' => array(
-                        'onchange' => $type_onchange,
-                    )
-                ))
-                ->add('option', null, $option_options)
-                ->add('client', 'sonata_type_model', array(
-                    'label' => 'sale.client',
-                    'required' => true,
-                    'empty_value' => 'Select from list',
-                ))
-                ->add('title', null, array(
-                    'label' => 'sale.title',
-                    'trim' => true,
-                    'required' => false,
-                    'help' => 'Jeżeli tytuł nie zostanie podany wprowadzona zostanie nazwa klienta.'
-                ))
-                ->add('leads_to', 'url', array(
-                    'label' => 'sale.leads_to',
-                    'trim' => true,
-                    'required' => false
-                ))
-                ->add('uploaded_file', 'file', array(
-                    'label' => 'sale.file',
-                    'required' => false,
-                    'help' => $img,
-                ))
+            ->add('enabled', null, array(
+                'label' => 'sale.enabled',
+                'required' => false,
+            ))
+            ->add('type', null, array(
+                'label' => 'sale.type',
+                'required' => true,
+                'attr' => array(
+                    'onchange' => $type_onchange,
+                )
+            ))
+            ->add('option', null, $option_options)
+            ->add('client', 'sonata_type_model', array(
+                'label' => 'sale.client',
+                'required' => true,
+                'empty_value' => 'Select from list',
+            ))
+            ->add('title', null, array(
+                'label' => 'sale.title',
+                'trim' => true,
+                'required' => false,
+                'help' => 'Jeżeli tytuł nie zostanie podany wprowadzona zostanie nazwa klienta.'
+            ))
+            ->add('leads_to', 'url', array(
+                'label' => 'sale.leads_to',
+                'trim' => true,
+                'required' => false
+            ))
+            ->add('uploaded_file', 'file', array(
+                'label' => 'sale.file',
+                'required' => false,
+                'help' => $img,
+            ))
 
             ->with('tabs.sale.displaying_params')
-                ->add('exclusive', null, array(
-                    'label' => 'sale.exclusive',
-                    'required' => false,
-                ))
-                ->add('everlasting', null, array(
-                    'label' => 'sale.everlasting',
-                    'required' => false,
-                ))
-                ->add('starts_at', new DatePickerType(), array(
-                    'label' => 'sale.starts_at',
-                    'required' => false,
-                ))
+            ->add('exclusive', null, array(
+                'label' => 'sale.exclusive',
+                'required' => false,
+            ))
+            ->add('everlasting', null, array(
+                'label' => 'sale.everlasting',
+                'required' => false,
+            ))
+            ->add('starts_at', new DatePickerType(), array(
+                'label' => 'sale.starts_at',
+                'required' => false,
+            ))
 
             ->with('tabs.sale.url')
-                ->add('path', null, array(
-                    'label' => 'sale.path',
-                    'trim' => true,
-                    'required' => false,
-                    'help' => 'help.sale.path',
-                ));
+            ->add('path', null, array(
+                'label' => 'sale.path',
+                'trim' => true,
+                'required' => false,
+                'help' => 'help.sale.path',
+            ));
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -198,8 +197,10 @@ IMG;
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add("client")
-            ->add("type");
+            ->add('client')
+            ->add('type')
+            ->add('enabled')
+        ;
     }
 
     public function prePersist($object)
