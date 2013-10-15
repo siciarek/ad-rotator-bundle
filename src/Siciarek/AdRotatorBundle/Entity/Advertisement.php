@@ -2,15 +2,22 @@
 
 namespace Siciarek\AdRotatorBundle\Entity;
 
-use Siciarek\AdRotatorBundle\Model\FileableEntity;
 use Siciarek\AdRotatorBundle\Utils\Time;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Advertisement
  */
-class Advertisement extends FileableEntity
+class Advertisement
 {
+
+    /**
+     * @ORM\PostPersist
+     */
+    public function postPersist() {
+    }
+
     /**
      * @ORM\PrePersist
      */
@@ -33,7 +40,7 @@ class Advertisement extends FileableEntity
         );
 
         if ($option !== null) {
-            if ($end == null) {
+            if ($end === null) {
                 $period = $option->getPeriod();
                 $duration = $option->getDuration();
                 $days = $periods[$period] * $duration;
@@ -41,6 +48,8 @@ class Advertisement extends FileableEntity
             }
             $this->setPrice($option->getPrice());
         }
+
+        $this->upload();
     }
 
     public function __toString()
@@ -58,7 +67,7 @@ class Advertisement extends FileableEntity
     {
         $this->setStartsAt(new \DateTime());
         $this->setPrice(0);
-        $this->setEnabled(false);
+        $this->setEnabled(true);
         $this->setExclusive(false);
         $this->setEverlasting(false);
         $this->setFrequency(0);
@@ -95,6 +104,58 @@ class Advertisement extends FileableEntity
     public function getUploadDir()
     {
         return 'uploads/sar/' . $this->getClient()->getId();
+    }
+
+    /**
+     * UploadedFile
+     */
+    protected $uploaded_file;
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setUploadedFile(UploadedFile $uploaded_file = null)
+    {
+        $this->uploaded_file = $uploaded_file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getUploadedFile()
+    {
+        return $this->uploaded_file;
+    }
+
+
+// STEP THREE:
+
+    public function upload($file_setter = 'setPath')
+    {
+        if (null === $this->getUploadedFile()) {
+            return;
+        }
+
+        $ext = preg_replace("/^.*\.(\w+)$/", "$1", $this->getUploadedFile()->getClientOriginalName());
+
+        do {
+            $filename = sha1(uniqid(mt_rand(), true));
+            $filename = $filename . "." . $ext;
+            $fullname = $this->getUploadRootDir() . DIRECTORY_SEPARATOR . $filename;
+        } while (file_exists($fullname));
+
+        $this->getUploadedFile()->move(
+            $this->getUploadRootDir(),
+            $fullname
+        );
+
+        $this->$file_setter($filename);
+
+        $this->uploaded_file = null;
     }
 
 //////////////////////////////////////////////////////////

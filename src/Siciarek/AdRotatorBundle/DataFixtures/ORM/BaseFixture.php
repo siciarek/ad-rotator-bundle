@@ -23,6 +23,9 @@ abstract class BaseFixture extends AbstractFixture implements ContainerAwareInte
     protected $data_dir;
     protected $test = false;
 
+    protected function getBinariesPath() {
+        return __DIR__ . '/../data/files/';
+    }
 
     protected function getData($key, $fileName = null)
     {

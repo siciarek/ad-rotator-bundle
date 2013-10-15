@@ -2,20 +2,35 @@
     {% if ad != null %}
         {% set width = ad.params.width %}
         {% set height = ad.params.height %}
-        {% set scriptaccess = (ad.href == null) ? 'always' : 'never' %}
-        {% if ad.href != null %}<a class="a-link-{{ ad.type }}" href="{{ ad.href }}" title="{{ ad.title }}" target="_blank">{% endif %}<img
-                {% if ad.filetype == 'flash' %}style="display:none"{% endif %} class="a-image-{{ ad.type }}" width="{{ width }}" height="{{ height }}" style="width:{{ width }}px;height:{{ height }}px" src="{{ ad.src }}" alt="{{ ad.title }}"
-                /><object {% if ad.filetype == 'image' %}style="display:none"{% endif %} class="a-movie-{{ ad.type }}" width="{{ width }}" height="{{ height }}" align="middle" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+
+        <a id="a-link-{{ ad.pos }}" onclick="return sar_increment_clicks(this.id)"
+           class="a-link-{{ ad.type }} {{ ad.filetype }}"
+           style="vertical-align:top;margin:0;padding:0{% if ad.href == null and ad.filetype == 'image' %};cursor:default{% endif %}"
+           data-var="{{ ad.slug }}"
+           href="{{ ad.href == null ? '#a-link-empty' : ad.href }}" title="{{ ad.title }}"><img
+                    class="a-image-{{ ad.type }}"
+                    style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'flash' %};display:none{% endif %}"
+                    width="{{ width }}" height="{{ height }}" style="width:{{ width }}px;height:{{ height }}px"
+                    src="{{ ad.src }}" alt="{{ ad.title }}"
+                    />
+            <object class="a-movie-{{ ad.type }}"
+                    style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'image' %};display:none{% endif %}"
+                    width="{{ width }}" height="{{ height }}" align="middle"
+                    codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+                    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
                 <param name="allowFullScreen" value="false">
                 <param name="movie" value="{{ ad.src }}">
                 <param name="quality" value="high">
                 <param name="scale" value="noscale">
                 <param name="salign" value="lt">
                 <param name="wmode" value="opaque">
-                <param name="allowScriptAccess" value="{{ scriptaccess }}">
-                <embed width="{{ width }}" height="{{ height }}" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" allowscriptaccess="{{ scriptaccess }}" allowfullscreen="false" salign="LT" scale="noscale" wmode="opaque" quality="high" src="{{ ad.src }}"/>
+                <param name="allowScriptAccess" value="always">
+                <embed width="{{ width }}" height="{{ height }}" align="middle"
+                       pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
+                       allowscriptaccess="always" allowfullscreen="false" salign="LT" scale="noscale"
+                       wmode="opaque" quality="high" src="{{ ad.src }}"/>
             </object>
-        {% if ad.href != null %}</a>{% endif %}
+        </a>
 
         <script>
             //<![CDATA[
@@ -27,7 +42,32 @@
 
         <script>
             //<![CDATA[
+
+            if (typeof sar_increment_clicks === 'undefined') {
+                var sar_increment_clicks = function (id) {
+
+                    var elem = $('#' + id);
+
+                    if (elem.attr('href') === '#a-link-empty') {
+                        if (elem.hasClass('flash')) {
+                            var slug = elem.attr('data-var');
+                            var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
+                            $.ajax({
+                                url: url,
+                                success: function(result){
+
+                                }
+                            });
+                        }
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
             $(document).ready(function () {
+
                 if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
                     if (typeof rotateA{{ ad.type }} === 'undefined') {
                         rotateA{{ ad.type }} = function () {
@@ -44,35 +84,30 @@
                             });
 
                             $('.a-image-{{ ad.type }}').each(function (i, e) {
-                                $(e).show();
-                                $($('.a-movie-{{ ad.type }}').get(i)).hide();
 
-                                if (data[i].filetype == 'flash') {
-                                    $(e).hide();
+                                var ad = data[i];
+                                var image = e;
+                                var movie = $('.a-movie-{{ ad.type }}').get(i);
+                                var link = $('.a-link-{{ ad.type }}').get(i);
 
-                                    var movie = $('.a-movie-1').get(i);
+                                $(image).hide();
+                                $(movie).hide();
 
-                                    var object_src = $(movie).find('param[name="movie"]');
-                                    var embed = $(movie).find('embed');
-                                    var object_scriptaccess = $(movie).find('param[name="allowScriptAccess"]');
+                                $(link).attr('href', ad.href === null ? '#a-link-empty' : ad.href).attr('title', ad.title);
 
-                                    var scriptaccess = (data[i].href === null) ? 'always' : 'never';
-
-                                    object_src.attr('value', data[i].src);
-                                    embed.attr('src', data[i].src)
-                                    object_scriptaccess.attr('value', scriptaccess);
-                                    embed.attr('allowscriptaccess', scriptaccess);
-
-                                    $($('.a-movie-{{ ad.type }}').get(i)).show();
+                                if (ad.filetype === 'flash') {
+                                    $(movie).find('param[name="movie"]').attr('value', ad.src);
+                                    $(movie).find('embed').attr('src', ad.src);
+                                    $(movie).show();
                                 }
                                 else {
-                                    $(e).attr('src', data[i].src).attr('alt', data[i].title);
-                                    $($('.a-link-{{ ad.type }}').get(i)).attr('href', data[i].href).attr('title', data[i].title);
+                                    $(image).attr('src', ad.src).attr('alt', ad.title);
+                                    $(image).show();
                                 }
                             });
                         };
 
-                        if(parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                        if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
                             setInterval(rotateA{{ ad.type }}, parseInt('{{ ad.params.rotateAfter * 1000 }}'));
                         }
                     }

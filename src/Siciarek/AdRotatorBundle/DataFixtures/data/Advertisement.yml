@@ -1,0 +1,50 @@
+---
+Advertisement:
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Hello World!
+        title: Banner FLASH no landing page
+        leads_to: ~
+        uploaded_file: 06.swf
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Hello World!
+        title: Banner SVG no landing page
+        leads_to: ~
+        uploaded_file: 05.svg
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Hello World!
+        title: ~
+        leads_to: ~
+        uploaded_file: 01.png
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Hello World!
+        title: Banner GIF no landing page
+        leads_to: ~
+        uploaded_file: 04.gif
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Go Johnny Go!
+        title: Banner JPG no landing page
+        leads_to: ~
+        uploaded_file: 02.jpg
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Go Johnny Go!
+        title: Banner JPEG no landing page
+        leads_to: ~
+        uploaded_file: 03.jpeg

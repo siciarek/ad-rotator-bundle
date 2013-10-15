@@ -175,7 +175,8 @@ IMG;
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('title')
+            ->addIdentifier('id')
+            ->addIdentifier('title')
             ->add('displayed')
             ->add('clicked')
             ->add('client')
