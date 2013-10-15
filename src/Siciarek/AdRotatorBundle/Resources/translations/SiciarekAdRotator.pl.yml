@@ -48,6 +48,7 @@ price:
     duration: Ilość jedn. czasu
     period: Jednostka czasu
     price: Cena
+    all_types: Wszystkie typy
 
 client:
     enabled: Aktywny

@@ -43,6 +43,15 @@ class AdvertisementPriceAdmin extends DefaultAdmin
                 'label' => 'price.duration',
             ))
         ;
+
+        if($this->getSubject()->getId() === null) {
+            $formMapper->add('all_types', 'checkbox', array(
+                'label' => 'price.all_types',
+                'required' => false,
+                'mapped' => false,
+                'data' => true,
+            ));
+        }
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -79,6 +88,10 @@ class AdvertisementPriceAdmin extends DefaultAdmin
 
     public function prePersist($object)
     {
+        if ($this->getForm()->get('all_types')->getNormData() === false) {
+            return;
+        }
+
         /**
          * @var AdvertisementPrice $object
          */
@@ -94,9 +107,9 @@ class AdvertisementPriceAdmin extends DefaultAdmin
         /**
          * @var AdvertisementType $t
          */
-        foreach($types as $t) {
+        foreach ($types as $t) {
 
-            if($object->getType()->contains($t)) {
+            if ($object->getType()->contains($t)) {
                 continue;
             }
 
