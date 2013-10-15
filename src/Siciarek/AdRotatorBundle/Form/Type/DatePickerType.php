@@ -16,7 +16,7 @@ class DatePickerType extends AbstractType
             'format' => 'yyyy-MM-dd',
             'attr'   => array(
                 'autocomplete' => 'off',
-                'class'        => 'date_picker',
+                'class'        => 'datepicker',
             ),
         );
 
@@ -31,6 +31,6 @@ class DatePickerType extends AbstractType
 
     public function getName()
     {
-        return 'date_picker';
+        return 'datepicker';
     }
 }

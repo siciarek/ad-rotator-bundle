@@ -70,7 +70,8 @@ class AdvertisementTypeAdmin extends DefaultAdmin
                     'by_reference' => false,
                     'query' =>  $prices,
                 )
-            );
+            )
+        ;
     }
 
     protected function configureListFields(ListMapper $listMapper)

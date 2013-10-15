@@ -1,0 +1,20 @@
+---
+Client:
+    -
+        name: Hello World!
+        email: helloworld@example.com
+        phone: +48 123 456 789
+        invoice_name: Czesław Olak Hello World! Spółka Akcyjna
+        invoice_nip: 6292180910
+        invoice_address: >
+            ul. Wojska Polskiego 124
+            86-100 Świecie
+    -
+        name: Go Johnny Go!
+        email: gojohny@example.com
+        phone: +48 123 456 789
+        invoice_name: Jan Doe Go Johnny Go! Spółka Cywilna
+        invoice_nip: 4593149621
+        invoice_address: >
+            ul. Przasnyska 14
+            13-113 Janowo
