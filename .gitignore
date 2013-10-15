@@ -1,6 +1,7 @@
 # VCS
 .git
 
+/src/Application
 # PHPStorm
 .idea
 .DS_Store

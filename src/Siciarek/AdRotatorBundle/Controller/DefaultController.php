@@ -30,6 +30,7 @@ class DefaultController extends Controller
             throw $this->createNotFoundException();
         }
 
+        $ad->setUploadRootDir($this->get('kernel')->getRootDir() . '/../web/' );
         $filename = $ad->getAbsolutePath();
 
         $headers = array(
