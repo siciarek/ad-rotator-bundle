@@ -3,19 +3,25 @@
         {% set width = ad.params.width %}
         {% set height = ad.params.height %}
 
-        <a id="a-link-{{ ad.pos }}" onclick="return sar_increment_clicks(this.id)"
+        <a id="a-link-{{ ad.pos }}"
+           target="_blank"
+           onclick="return sar_increment_clicks(this.id)"
            class="a-link-{{ ad.type }} {{ ad.filetype }}"
            style="vertical-align:top;margin:0;padding:0{% if ad.href == null and ad.filetype == 'image' %};cursor:default{% endif %}"
            data-var="{{ ad.slug }}"
            href="{{ ad.href == null ? '#a-link-empty' : ad.href }}" title="{{ ad.title }}"><img
                     class="a-image-{{ ad.type }}"
-                    style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'flash' %};display:none{% endif %}"
-                    width="{{ width }}" height="{{ height }}" style="width:{{ width }}px;height:{{ height }}px"
-                    src="{{ ad.src }}" alt="{{ ad.title }}"
+                    style="vertical-align:top;margin:0;padding:0;width:{{ width }}px;height:{{ height }}px{% if ad.filetype == 'flash' %};display:none{% endif %}"
+                    width="{{ width }}"
+                    height="{{ height }}"
+                    src="{{ ad.src }}"
+                    alt="{{ ad.title }}"
                     />
             <object class="a-movie-{{ ad.type }}"
                     style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'image' %};display:none{% endif %}"
-                    width="{{ width }}" height="{{ height }}" align="middle"
+                    width="{{ width }}"
+                    height="{{ height }}"
+                    align="middle"
                     codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
                     classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
                 <param name="allowFullScreen" value="false">
@@ -25,10 +31,17 @@
                 <param name="salign" value="lt">
                 <param name="wmode" value="opaque">
                 <param name="allowScriptAccess" value="always">
-                <embed width="{{ width }}" height="{{ height }}" align="middle"
+                <embed width="{{ width }}"
+                       height="{{ height }}"
+                       align="middle"
                        pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
-                       allowscriptaccess="always" allowfullscreen="false" salign="LT" scale="noscale"
-                       wmode="opaque" quality="high" src="{{ ad.src }}"/>
+                       allowscriptaccess="always"
+                       allowfullscreen="false"
+                       salign="LT"
+                       scale="noscale"
+                       wmode="opaque"
+                       quality="high"
+                       src="{{ ad.src }}"/>
             </object>
         </a>
 

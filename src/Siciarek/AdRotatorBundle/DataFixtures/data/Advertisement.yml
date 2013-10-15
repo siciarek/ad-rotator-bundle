@@ -5,7 +5,7 @@ Advertisement:
         type: 1
         option: 1
         client: Hello World!
-        title: Banner FLASH no landing page
+        title: Banner FLASH without landing page
         leads_to: ~
         uploaded_file: 06.swf
     -
@@ -13,7 +13,7 @@ Advertisement:
         type: 1
         option: 1
         client: Hello World!
-        title: Banner SVG no landing page
+        title: Banner SVG without landing page
         leads_to: ~
         uploaded_file: 05.svg
     -
@@ -29,15 +29,23 @@ Advertisement:
         type: 1
         option: 1
         client: Hello World!
-        title: Banner GIF no landing page
+        title: Banner GIF without landing page
         leads_to: ~
         uploaded_file: 04.gif
     -
         enabled: true
         type: 1
         option: 1
+        client: Hello World!
+        title: Banner GIF with landing page
+        leads_to: http://sescom.pl
+        uploaded_file: 04.gif
+    -
+        enabled: true
+        type: 1
+        option: 1
         client: Go Johnny Go!
-        title: Banner JPG no landing page
+        title: Banner JPG without landing page
         leads_to: ~
         uploaded_file: 02.jpg
     -
@@ -45,6 +53,14 @@ Advertisement:
         type: 1
         option: 1
         client: Go Johnny Go!
-        title: Banner JPEG no landing page
+        title: Banner JPEG without landing page
         leads_to: ~
         uploaded_file: 03.jpeg
+    -
+        enabled: true
+        type: 1
+        option: 1
+        client: Go Johnny Go!
+        title: Banner SVG with landing page
+        leads_to: http://moronet.pl
+        uploaded_file: 05.svg
