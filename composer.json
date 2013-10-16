@@ -1,5 +1,5 @@
 {
-    "name": "siciarek/adrotator",
+    "name": "siciarek/ad-rotator-bundle",
     "type": "library",
     "description": "SonataAdminBundle based Ad Rotator",
     "keywords": [
@@ -10,7 +10,7 @@
         "advertisement rotator",
         "bundle"
     ],
-    "homepage": "http://github.com/siciarek/adrotator.git",
+    "homepage": "http://github.com/siciarek/ad-rotator-bundle.git",
     "license": "MIT",
     "authors": [
         {
