@@ -69,7 +69,9 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      * @param int $type
      * @return string
      */
-    public function displayAd(\Twig_Environment $twig, $type = 1) {
-        return $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', DefaultController::getAd($type, $this->container));
+    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false) {
+        $params = DefaultController::getAd($type, $this->container);
+        $params['static'] = $static;
+        return $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
     }
 }

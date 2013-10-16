@@ -1,24 +1,28 @@
 {% spaceless %}
     {% if ad != null %}
+
         {% set width = ad.params.width %}
         {% set height = ad.params.height %}
+        {% set rotateAfter = ad.params.rotateAfter %}
+        {% if rotateAfter == 0 %}
+            {% set static = true %}
+        {% endif %}
 
-        <a id="a-link-{{ ad.pos }}"
+        <a id="a-{{ (static is defined and static is sameas(true)) ? 'static' : '' }}link-{{ ad.type }}-{{ ad.pos }}"
            target="_blank"
            onclick="return sar_increment_clicks(this.id)"
-           class="a-link-{{ ad.type }} {{ ad.filetype }}"
+           href="{{ ad.href == null ? '#a-link-empty' : ad.href }}" title="{{ ad.title }}"
            style="vertical-align:top;margin:0;padding:0{% if ad.href == null and ad.filetype == 'image' %};cursor:default{% endif %}"
-           data-var="{{ ad.slug }}"
-           href="{{ ad.href == null ? '#a-link-empty' : ad.href }}" title="{{ ad.title }}"><img
-                    class="a-image-{{ ad.type }}"
-                    style="vertical-align:top;margin:0;padding:0;width:{{ width }}px;height:{{ height }}px{% if ad.filetype == 'flash' %};display:none{% endif %}"
-                    width="{{ width }}"
-                    height="{{ height }}"
-                    src="{{ ad.src }}"
-                    alt="{{ ad.title }}"
+           data-var="{{ ad.slug }}">
+
+            <img style="vertical-align:top;margin:0;padding:0;width:{{ width }}px;height:{{ height }}px{% if ad.filetype == 'flash' %};display:none{% endif %}"
+                 width="{{ width }}"
+                 height="{{ height }}"
+                 src="{{ ad.src }}"
+                 alt="{{ ad.title }}"
                     />
-            <object class="a-movie-{{ ad.type }}"
-                    style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'image' %};display:none{% endif %}"
+
+            <object style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'image' %};display:none{% endif %}"
                     width="{{ width }}"
                     height="{{ height }}"
                     align="middle"
@@ -43,6 +47,7 @@
                        quality="high"
                        src="{{ ad.src }}"/>
             </object>
+
         </a>
 
         <script>
@@ -69,7 +74,7 @@
                             $.ajax({
                                 url: url,
                                 async: false,
-                                success: function(result){
+                                success: function (result) {
 
                                 }
                             });
@@ -91,39 +96,41 @@
 
                             $.ajax({
                                 dataType: 'json',
-                                url: '{{ path('_sar_data', { type: ad.type }) }}/' + $('.a-image-{{ ad.type }}').length,
+                                url: '{{ path('_sar_data', { type: ad.type }) }}/' + $('a[id^="a-link-{{ ad.type }}"]').length,
                                 async: false,
                                 success: function (response) {
                                     data = response;
                                 }
                             });
 
-                            $('.a-image-{{ ad.type }}').each(function (i, e) {
+                            $('a[id^="a-link-{{ ad.type }}"]').each(function (i, e) {
 
                                 var ad = data[i];
-                                var image = e;
-                                var movie = $('.a-movie-{{ ad.type }}').get(i);
-                                var link = $('.a-link-{{ ad.type }}').get(i);
+                                var href = ad.href === null ? '#a-link-empty' : ad.href;
 
-                                $(image).hide();
-                                $(movie).hide();
+                                var link = $(e);
+                                var movie = link.find('object');
+                                var image = link.find('img');
 
-                                $(link).attr('href', ad.href === null ? '#a-link-empty' : ad.href).attr('title', ad.title);
+                                link.attr('href', href).attr('title', ad.title);
+                                image.hide();
+                                movie.hide();
 
                                 if (ad.filetype === 'flash') {
-                                    $(movie).find('param[name="movie"]').attr('value', ad.src);
-                                    $(movie).find('embed').attr('src', ad.src);
-                                    $(movie).show();
+                                    movie.find('param[name="movie"]').attr('value', ad.src);
+                                    movie.find('embed').attr('src', ad.src);
+                                    movie.show();
                                 }
                                 else {
-                                    $(image).attr('src', ad.src).attr('alt', ad.title);
-                                    $(image).show();
+                                    image.attr('src', ad.src)
+                                            .attr('alt', ad.title);
+                                    image.show();
                                 }
                             });
                         };
 
                         if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
-                            setInterval(rotateA{{ ad.type }}, parseInt('{{ ad.params.rotateAfter * 1000 }}'));
+                            setInterval(rotateA{{ ad.type }}, parseInt('{{ rotateAfter * 1000 }}'));
                         }
                     }
                 }
@@ -131,4 +138,5 @@
             //]]>
         </script>
     {% endif %}
+
 {% endspaceless %}
