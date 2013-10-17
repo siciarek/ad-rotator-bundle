@@ -1,7 +1,7 @@
 SiciarekAdRotatorBundle
 =======================
 
-SonataAdminBundle based Ad Rotator
+SonataAdminBundle managed Ad Rotator.
 
 
 ## Installation
