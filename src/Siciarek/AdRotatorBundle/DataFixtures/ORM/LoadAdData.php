@@ -31,6 +31,8 @@ class LoadAdData extends BaseFixture
             $this->setReference('ad-price-' . (++$p), $obj);
         }
 
+        $om->flush();
+
         foreach ($this->getData('AdvertisementType') as $o) {
             $obj = new AdvertisementType();
             $obj->setId($o['id']);
@@ -44,6 +46,8 @@ class LoadAdData extends BaseFixture
             $this->setReference('ad-type-' . $o['id'], $obj);
             $om->persist($obj);
         }
+
+        $om->flush();
 
         foreach ($this->getData('Client') as $o) {
             $obj = new Client();
