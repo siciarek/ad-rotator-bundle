@@ -202,6 +202,7 @@ IMG;
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('title')
             ->add('client')
             ->add('type')
             ->add('enabled')

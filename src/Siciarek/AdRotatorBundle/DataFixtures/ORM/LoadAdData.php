@@ -82,6 +82,7 @@ class LoadAdData extends BaseFixture
 
             $obj->setUploadRootDir($this->container->get('kernel')->getRootDir() . '/../web/' );
             $obj->setUploadedFile($file);
+            $om->persist($obj);
 
             $title = sprintf(
                 '%s - %s landing page',

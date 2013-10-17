@@ -10,6 +10,7 @@
         {% endif %}
 
         <a id="a-{{ (static is defined and static is sameas(true)) ? 'static' : '' }}link-{{ ad.type }}-{{ ad.pos }}"
+           class="{{ ad.filetype }}"
            target="_blank"
            onclick="return sar_increment_clicks(this.id)"
            href="{{ ad.href == null ? '#a-link-empty' : ad.href }}" title="{{ ad.title }}"
@@ -20,8 +21,7 @@
                  width="{{ width }}"
                  height="{{ height }}"
                  src="{{ ad.src }}"
-                 alt="{{ ad.title }}"
-                    />
+                 alt="{{ ad.title }}"/>
 
             <object style="vertical-align:top;margin:0;padding:0{% if ad.filetype == 'image' %};display:none{% endif %}"
                     width="{{ width }}"
@@ -51,98 +51,104 @@
 
         </a>
 
-        {% if single is sameas(false) %}
+        <script>
+            //<![CDATA[
+            if (typeof jQuery === 'undefined') {
+                document.write('<scr' + 'ipt src="//code.jquery.com/jquery.js"></scr' + 'ipt>');
+            }
+            //]]>
+        </script>
 
-            <script>
-                //<![CDATA[
-                if (typeof jQuery === 'undefined') {
-                    document.write('<scr' + 'ipt src="//code.jquery.com/jquery.js"></scr' + 'ipt>');
-                }
-                //]]>
-            </script>
+        <script>
+            //<![CDATA[
 
-            <script>
-                //<![CDATA[
+            if (typeof sar_increment_clicks === 'undefined') {
+                var sar_increment_clicks = function (id) {
 
-                if (typeof sar_increment_clicks === 'undefined') {
-                    var sar_increment_clicks = function (id) {
+                    console.log(id);
 
-                        var elem = $('#' + id);
+                    var elem = $('#' + id);
 
-                        if (elem.attr('href') === '#a-link-empty') {
-                            if (elem.hasClass('flash')) {
-                                var slug = elem.attr('data-var');
-                                var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
+                    if (elem.attr('href') === '#a-link-empty') {
+                        if (elem.hasClass('flash')) {
 
-                                $.ajax({
-                                    url: url,
-                                    async: false,
-                                    success: function (result) {
+                            console.log('FLASH');
 
-                                    }
-                                });
-                            }
-                            return false;
+                            var slug = elem.attr('data-var');
+                            var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
+
+                            $.ajax({
+                                url: url,
+                                async: false,
+                                success: function (result) {
+
+                                }
+                            });
                         }
+                        return false;
+                    }
 
-                        return true;
+                    return true;
+                }
+            }
+
+            {% if single is sameas(false) %}
+
+            $(document).ready(function () {
+
+                if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                    if (typeof rotateA{{ ad.type }} === 'undefined') {
+                        rotateA{{ ad.type }} = function () {
+
+                            var data = null;
+
+                            var links = $('a[id^="a-link-{{ ad.type }}"]');
+
+                            $.ajax({
+                                dataType: 'json',
+                                url: '{{ path('_sar_data', { type: ad.type }) }}/' + links.length,
+                                async: false,
+                                success: function (response) {
+                                    data = response;
+                                }
+                            });
+
+                            links.each(function (i, e) {
+
+                                var ad = data[i];
+                                var href = ad.href === null ? '#a-link-empty' : ad.href;
+
+                                var link = $(e);
+                                var movie = link.find('object');
+                                var image = link.find('img');
+
+                                link.attr('href', href).attr('title', ad.title);
+                                image.hide();
+                                movie.hide();
+
+                                if (ad.filetype === 'flash') {
+                                    movie.find('param[name="movie"]').attr('value', ad.src);
+                                    movie.find('embed').attr('src', ad.src);
+                                    movie.show();
+                                }
+                                else {
+                                    image.attr('src', ad.src)
+                                            .attr('alt', ad.title);
+                                    image.show();
+                                }
+                            });
+                        };
+
+                        if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                            setInterval(rotateA{{ ad.type }}, parseInt('{{ rotateAfter * 1000 }}'));
+                        }
                     }
                 }
+            });
 
-                $(document).ready(function () {
-
-                    if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
-                        if (typeof rotateA{{ ad.type }} === 'undefined') {
-                            rotateA{{ ad.type }} = function () {
-
-                                var data = null;
-
-                                var links = $('a[id^="a-link-{{ ad.type }}"]');
-
-                                $.ajax({
-                                    dataType: 'json',
-                                    url: '{{ path('_sar_data', { type: ad.type }) }}/' + links.length,
-                                    async: false,
-                                    success: function (response) {
-                                        data = response;
-                                    }
-                                });
-
-                                links.each(function (i, e) {
-
-                                    var ad = data[i];
-                                    var href = ad.href === null ? '#a-link-empty' : ad.href;
-
-                                    var link = $(e);
-                                    var movie = link.find('object');
-                                    var image = link.find('img');
-
-                                    link.attr('href', href).attr('title', ad.title);
-                                    image.hide();
-                                    movie.hide();
-
-                                    if (ad.filetype === 'flash') {
-                                        movie.find('param[name="movie"]').attr('value', ad.src);
-                                        movie.find('embed').attr('src', ad.src);
-                                        movie.show();
-                                    }
-                                    else {
-                                        image.attr('src', ad.src)
-                                                .attr('alt', ad.title);
-                                        image.show();
-                                    }
-                                });
-                            };
-
-                            if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
-                                setInterval(rotateA{{ ad.type }}, parseInt('{{ rotateAfter * 1000 }}'));
-                            }
-                        }
-                    }
-                });
-                //]]>
-            </script>
-        {% endif %}
+            {% endif %}
+            //]]>
+        </script>
     {% endif %}
 
 {% endspaceless %}
