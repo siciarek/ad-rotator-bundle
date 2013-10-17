@@ -30,6 +30,9 @@ Siciarek\AdRotatorBundle\Entity\Client:
             gedmo:
                 timestampable:
                     on: update
+
+# RELATIONS -------------------------------------
+
     oneToMany:
         advertisements:
             targetEntity: Advertisement

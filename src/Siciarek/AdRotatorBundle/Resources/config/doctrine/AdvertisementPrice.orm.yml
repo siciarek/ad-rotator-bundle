@@ -1,7 +1,7 @@
 Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
     type: entity
     repositoryClass: AdvertisementPriceRepository
-    table: sar_advertisement_price
+    table: sar_ad_price
     namedQueries:
         ordered: SELECT o FROM __CLASS__ o ORDER BY o.price DESC
     id:
@@ -23,7 +23,23 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
             precision: 10
             scale: 2
 
+# RELATIONS -------------------------------------
+
     manyToMany:
         type:
             targetEntity: AdvertisementType
             inversedBy: prices
+            joinTable:
+                name: sar_ad_price_ad_type
+                joinColumns:
+                    type_id:
+                        referencedColumnName: id
+                        nullable: false
+                        unique: false
+                        onDelete: CASCADE
+                inverseJoinColumns:
+                    price_id:
+                        referencedColumnName: id
+                        nullable: false
+                        unique: false
+                        onDelete: CASCADE

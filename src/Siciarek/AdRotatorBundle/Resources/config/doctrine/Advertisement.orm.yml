@@ -1,7 +1,7 @@
 Siciarek\AdRotatorBundle\Entity\Advertisement:
     type: entity
     repositoryClass: AdvertisementRepository
-    table: sar_advertisement
+    table: sar_ad_sale
     namedQueries:
         single: |
             SELECT a, t, c
@@ -75,6 +75,9 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
             gedmo:
                 timestampable:
                     on: update
+
+# RELATIONS -------------------------------------
+
     manyToOne:
         option:
             targetEntity: AdvertisementPrice

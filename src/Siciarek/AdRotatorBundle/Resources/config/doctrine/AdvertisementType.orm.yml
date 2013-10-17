@@ -1,7 +1,7 @@
 Siciarek\AdRotatorBundle\Entity\AdvertisementType:
     type: entity
     repositoryClass: AdvertisementTypeRepository
-    table: sar_advertisement_type
+    table: sar_ad_type
     namedQueries:
         count: SELECT COUNT(o) FROM __CLASS__ o
         maxid: SELECT MAX(o.id) FROM __CLASS__ o
@@ -14,6 +14,8 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementType:
         name: ~
         definition:
             type: json
+
+# RELATIONS -------------------------------------
 
     manyToMany:
         prices:
