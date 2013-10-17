@@ -1,5 +1,5 @@
-adrotator
-=========
+SiciarekAdRotatorBundle
+=======================
 
 SonataAdminBundle based Ad Rotator
 
