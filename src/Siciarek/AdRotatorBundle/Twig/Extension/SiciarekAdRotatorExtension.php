@@ -3,7 +3,7 @@
 namespace Siciarek\AdRotatorBundle\Twig\Extension;
 
 use Doctrine\ORM\EntityManager;
-use EWZ\Bundle\TextBundle\Templating\Helper\TextHelper;
+use Doctrine\ORM\Query;
 use Siciarek\AdRotatorBundle\Controller\DefaultController;
 use Siciarek\AdRotatorBundle\Entity\Advertisement;
 use Symfony\Component\DependencyInjection\Container;
@@ -13,7 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use CG\Core\ClassUtils;
 
 
 class SiciarekAdRotatorExtension extends \Twig_Extension
@@ -44,9 +43,7 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-
-        );
+        return array();
     }
 
     /**
@@ -56,9 +53,48 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
     {
         return array(
             'display_ad' => new \Twig_SimpleFunction('display_ad', array($this, 'displayAd'), array('needs_environment' => true, 'is_safe' => array('html'))),
+            'display_single_ad' => new \Twig_SimpleFunction('display_single_ad', array($this, 'displaySingleAd'), array('needs_environment' => true, 'is_safe' => array('html'))),
         );
     }
 
+    /**
+     * @param \Twig_Environment $twig
+     * @param int $type
+     * @return string
+     */
+    public function displaySingleAd(\Twig_Environment $twig, $id)
+    {
+
+        $now = new \DateTime();
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
+        /**
+         * @var Query $query
+         */
+        $query = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')
+            ->createNamedQuery('single')
+            ->setParameter('id', intval($id))
+            ->setParameter('now', $now);
+
+        $ads = $query->getResult();
+
+        if (count($ads) > 0) {
+            /**
+             * @var Advertisement $ad
+             */
+            $ad = $ads[0];
+            $ad->setDisplayed($ad->getDisplayed() + 1);
+            $em->persist($ad);
+            $em->flush();
+
+            $params['ad'] = DefaultController::getAdData($ad, $this->container);
+            $params['ad']['single'] = true;
+            $params['static'] = true;
+            return $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
+        }
+
+        return '';
+    }
 
     /**
      * Custom methods
@@ -69,7 +105,8 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      * @param int $type
      * @return string
      */
-    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false) {
+    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false)
+    {
         $params = DefaultController::getAd($type, $this->container);
         $params['static'] = $static;
         return $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);

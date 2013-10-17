@@ -61,14 +61,19 @@ client:
     invoice_address: Adres
 
 sale:
+    id: Numer
     enabled: Włączona
+    displayed: Ilość wyświetleń
+    clicked: Ilość kliknięć
     type: Typ
     option: Wariant
     client: Klient
     title: Tytuł
     leads_to: Prowadzi do
     file: Plik
+    price: Opłata
     exclusive: Na wyłączność
     everlasting: Wieczna
     starts_at: Data włączenia
+    ends_at: Data wyłączenia
     path: Ścieżka

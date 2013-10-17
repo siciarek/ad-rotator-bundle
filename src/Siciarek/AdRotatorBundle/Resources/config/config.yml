@@ -6,6 +6,12 @@ doctrine:
     dbal:
         types:
             nip: Siciarek\AdRotatorBundle\Doctrine\DBAL\Types\NipType
+            json: Sonata\Doctrine\Types\JsonType
+        mapping_types:
+            enum: string
+            set: string
+            varbinary: string
+            tinyblob: text
     orm:
         entity_managers:
             default:

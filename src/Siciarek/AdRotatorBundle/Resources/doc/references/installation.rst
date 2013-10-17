@@ -77,7 +77,7 @@ In ``app/config/config.yml`` into section ``imports`` add:
 
     - { resource: ../../src/Siciarek/AdRotatorBundle/Resources/config/config.yml }
 
-and as a separate sections add:
+and as a separate sections add (if you have not done it yet):
 
 .. code-block::	yaml
 
@@ -86,21 +86,6 @@ and as a separate sections add:
             default:
                 sluggable: true
                 timestampable: true
-
-    sonata_block:
-        default_contexts: [cms]
-        blocks:
-            sonata.admin.block.admin_list:
-                contexts:   [admin]
-            sonata.block.service.text: ~
-            sonata.block.service.rss: ~
-
-in section ``doctrine.dbal`` add:
-
-.. code-block::	yaml
-
-    types:
-        json: Sonata\Doctrine\Types\JsonType
 
 uncomment:
 

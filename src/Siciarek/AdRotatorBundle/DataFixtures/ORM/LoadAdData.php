@@ -66,7 +66,6 @@ class LoadAdData extends BaseFixture
             $obj->setType($this->getReference('ad-type-' . $o['type']));
             $obj->setOption($this->getReference('ad-price-' . $o['option']));
             $obj->setClient($this->getReference('ad-client-' . $o['client']));
-            $obj->setTitle($o['title']);
             $obj->setLeadsTo($o['leads_to']);
 
             $def = $obj->getType()->getDefinition();
@@ -84,6 +83,13 @@ class LoadAdData extends BaseFixture
             $obj->setUploadRootDir($this->container->get('kernel')->getRootDir() . '/../web/' );
             $obj->setUploadedFile($file);
 
+            $title = sprintf(
+                '%s - %s landing page',
+                strtoupper($file->getExtension()),
+                $obj->getLeadsTo() === null ? 'NO' : 'WITH'
+            );
+
+            $obj->setTitle($title);
             $om->persist($obj);
         }
 

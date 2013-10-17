@@ -2,9 +2,8 @@
 SiciarekAdRotatorBundle - docs
 ------------------------------
 
-.. _here: ../docs/pdf/adrotator.pdf
-
-See the PDF version of current documentation here_
+.. COMMENT .. _here: ../docs/pdf/adrotator.pdf
+.. See the PDF version of current documentation here_
 
 .. toctree::
     :maxdepth: 1

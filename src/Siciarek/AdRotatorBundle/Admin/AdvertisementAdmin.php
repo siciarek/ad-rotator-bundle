@@ -71,7 +71,7 @@ IMG;
                 $img = sprintf($fmt, $width, $height, $src, $width, $height, $src);
 
             } else {
-                $img = sprintf('<img style="border:1px solid silver" src="%s"/>', $src);
+                $img = '<img style="border:1px solid silver" src="' . $src . '"/>';
             }
         }
 
@@ -82,7 +82,11 @@ IMG;
         if ($type_id === 0) {
             if ($this->getSubject()->getId() === null) {
                 $types = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')->findAll();
-                $type_id = count($types) > 0 ? $types[0]->getId() : 0;
+                /**
+                 * @var AdvertisementType $t
+                 */
+                $type = array_shift($types);
+                $type_id = count($types) > 0 ? $type->getId() : 0;
             } else {
                 $type_id = $this->getSubject()->getType()->getId();
             }
@@ -174,19 +178,20 @@ IMG;
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
-            ->addIdentifier('title')
-            ->add('displayed')
-            ->add('clicked')
-            ->add('client')
-            ->add('type')
-            ->add('starts_at')
-            ->add('expires_at')
-            ->add('price')
-            ->add('enabled', null, array('editable' => true))
-            ->add('exclusive', null, array('editable' => true))
-            ->add('everlasting', null, array('editable' => true))
+            ->addIdentifier('id', null, array('label' => 'sale.id'))
+            ->addIdentifier('title', null, array('label' => 'sale.title'))
+            ->add('displayed', null, array('label' => 'sale.displayed'))
+            ->add('clicked', null, array('label' => 'sale.clicked'))
+            ->add('client', null, array('label' => 'sale.client'))
+            ->add('type', null, array('label' => 'sale.type'))
+            ->add('price', null, array('label' => 'sale.price'))
+            ->add('starts_at', null, array('label' => 'sale.starts_at'))
+            ->add('expires_at', null, array('label' => 'sale.ends_at'))
+            ->add('enabled', null, array('editable' => true, 'label' => 'sale.enabled'))
+            ->add('exclusive', null, array('editable' => true, 'label' => 'sale.exclusive'))
+            ->add('everlasting', null, array('editable' => true, 'label' => 'sale.everlasting'))
             ->add('_action', 'actions', array(
+                'label' => 'general.actions',
                 'actions' => array(
                     'edit' => array(),
                     'delete' => array()
@@ -229,6 +234,7 @@ IMG;
 
         /**
          * @var UploadedFile $file
+         * @var Advertisement $object
          */
         $file = $object->getUploadedFile();
 

@@ -29,6 +29,7 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
+        "doctrine/doctrine-migrations-bundle": "dev-master",
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
@@ -41,11 +42,6 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0"
-    },
-    "autoload": {
-        "psr-0": {
-            "Siciarek\\AdRotator": "src/"
-        }
     },
     "bin": [
 

@@ -4,6 +4,7 @@
         {% set width = ad.params.width %}
         {% set height = ad.params.height %}
         {% set rotateAfter = ad.params.rotateAfter %}
+        {% set single = (ad.single is defined and ad.single == true) %}
         {% if rotateAfter == 0 %}
             {% set static = true %}
         {% endif %}
@@ -45,98 +46,103 @@
                        scale="noscale"
                        wmode="opaque"
                        quality="high"
-                       src="{{ ad.src }}"/>
+                       src="{{ ad.src }}"></embed>
             </object>
 
         </a>
 
-        <script>
-            //<![CDATA[
-            if (typeof jQuery === 'undefined') {
-                document.write('<scr' + 'ipt src="//code.jquery.com/jquery.js"></scr' + 'ipt>');
-            }
-            //]]>
-        </script>
+        {% if single is sameas(false) %}
 
-        <script>
-            //<![CDATA[
-
-            if (typeof sar_increment_clicks === 'undefined') {
-                var sar_increment_clicks = function (id) {
-
-                    var elem = $('#' + id);
-
-                    if (elem.attr('href') === '#a-link-empty') {
-                        if (elem.hasClass('flash')) {
-                            var slug = elem.attr('data-var');
-                            var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
-
-                            $.ajax({
-                                url: url,
-                                async: false,
-                                success: function (result) {
-
-                                }
-                            });
-                        }
-                        return false;
-                    }
-
-                    return true;
+            <script>
+                //<![CDATA[
+                if (typeof jQuery === 'undefined') {
+                    document.write('<scr' + 'ipt src="//code.jquery.com/jquery.js"></scr' + 'ipt>');
                 }
-            }
+                //]]>
+            </script>
 
-            $(document).ready(function () {
+            <script>
+                //<![CDATA[
 
-                if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
-                    if (typeof rotateA{{ ad.type }} === 'undefined') {
-                        rotateA{{ ad.type }} = function () {
+                if (typeof sar_increment_clicks === 'undefined') {
+                    var sar_increment_clicks = function (id) {
 
-                            var data = null;
+                        var elem = $('#' + id);
 
-                            $.ajax({
-                                dataType: 'json',
-                                url: '{{ path('_sar_data', { type: ad.type }) }}/' + $('a[id^="a-link-{{ ad.type }}"]').length,
-                                async: false,
-                                success: function (response) {
-                                    data = response;
-                                }
-                            });
+                        if (elem.attr('href') === '#a-link-empty') {
+                            if (elem.hasClass('flash')) {
+                                var slug = elem.attr('data-var');
+                                var url = '{{ url('_sar_increment_clicks', {slug: '__SLUG__'}) }}'.replace(/__SLUG__/, slug);
 
-                            $('a[id^="a-link-{{ ad.type }}"]').each(function (i, e) {
+                                $.ajax({
+                                    url: url,
+                                    async: false,
+                                    success: function (result) {
 
-                                var ad = data[i];
-                                var href = ad.href === null ? '#a-link-empty' : ad.href;
-
-                                var link = $(e);
-                                var movie = link.find('object');
-                                var image = link.find('img');
-
-                                link.attr('href', href).attr('title', ad.title);
-                                image.hide();
-                                movie.hide();
-
-                                if (ad.filetype === 'flash') {
-                                    movie.find('param[name="movie"]').attr('value', ad.src);
-                                    movie.find('embed').attr('src', ad.src);
-                                    movie.show();
-                                }
-                                else {
-                                    image.attr('src', ad.src)
-                                            .attr('alt', ad.title);
-                                    image.show();
-                                }
-                            });
-                        };
-
-                        if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
-                            setInterval(rotateA{{ ad.type }}, parseInt('{{ rotateAfter * 1000 }}'));
+                                    }
+                                });
+                            }
+                            return false;
                         }
+
+                        return true;
                     }
                 }
-            });
-            //]]>
-        </script>
+
+                $(document).ready(function () {
+
+                    if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                        if (typeof rotateA{{ ad.type }} === 'undefined') {
+                            rotateA{{ ad.type }} = function () {
+
+                                var data = null;
+
+                                var links = $('a[id^="a-link-{{ ad.type }}"]');
+
+                                $.ajax({
+                                    dataType: 'json',
+                                    url: '{{ path('_sar_data', { type: ad.type }) }}/' + links.length,
+                                    async: false,
+                                    success: function (response) {
+                                        data = response;
+                                    }
+                                });
+
+                                links.each(function (i, e) {
+
+                                    var ad = data[i];
+                                    var href = ad.href === null ? '#a-link-empty' : ad.href;
+
+                                    var link = $(e);
+                                    var movie = link.find('object');
+                                    var image = link.find('img');
+
+                                    link.attr('href', href).attr('title', ad.title);
+                                    image.hide();
+                                    movie.hide();
+
+                                    if (ad.filetype === 'flash') {
+                                        movie.find('param[name="movie"]').attr('value', ad.src);
+                                        movie.find('embed').attr('src', ad.src);
+                                        movie.show();
+                                    }
+                                    else {
+                                        image.attr('src', ad.src)
+                                                .attr('alt', ad.title);
+                                        image.show();
+                                    }
+                                });
+                            };
+
+                            if (parseInt('{{ ad.params.rotateAfter }}') > 0) {
+                                setInterval(rotateA{{ ad.type }}, parseInt('{{ rotateAfter * 1000 }}'));
+                            }
+                        }
+                    }
+                });
+                //]]>
+            </script>
+        {% endif %}
     {% endif %}
 
 {% endspaceless %}

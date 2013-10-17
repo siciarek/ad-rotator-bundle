@@ -3,6 +3,16 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
     repositoryClass: AdvertisementRepository
     table: sar_advertisement
     namedQueries:
+        single: |
+            SELECT a, t, c
+                FROM __CLASS__ a
+                LEFT JOIN a.client c
+                LEFT JOIN a.type t
+            WHERE
+                a.enabled = true
+            AND (a.starts_at <= :now AND a.expires_at >= :now OR a.everlasting = true)
+            AND c.enabled = true
+            AND a.id = :id
         available: |
             SELECT a, t, c
                 FROM __CLASS__ a
