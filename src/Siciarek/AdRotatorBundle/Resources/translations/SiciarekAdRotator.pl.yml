@@ -45,7 +45,7 @@ price:
     description: Opis
     mainpage: Str. główna
     subpages: Podstrony
-    duration: Ilość jedn. czasu
+    duration: Liczba jedn. czasu
     period: Jednostka czasu
     price: Cena
     all_types: Wszystkie typy
@@ -63,8 +63,8 @@ client:
 sale:
     id: Numer
     enabled: Włączona
-    displayed: Ilość wyświetleń
-    clicked: Ilość kliknięć
+    displayed: Liczba wyświetleń
+    clicked: Liczba kliknięć
     type: Typ
     option: Wariant
     client: Klient
