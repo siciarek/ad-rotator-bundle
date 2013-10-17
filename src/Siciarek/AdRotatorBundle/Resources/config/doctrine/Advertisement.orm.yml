@@ -26,6 +26,7 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
 
     lifecycleCallbacks:
         prePersist: [ prePersist ]
+        preUpdate: [ preUpdate ]
 
     id:
         id:

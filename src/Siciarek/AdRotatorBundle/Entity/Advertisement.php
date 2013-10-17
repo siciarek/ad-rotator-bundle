@@ -17,6 +17,12 @@ class Advertisement
      */
     public function postPersist() {
     }
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate() {
+        $this->prePersist();
+    }
 
     /**
      * @ORM\PrePersist
@@ -36,7 +42,6 @@ class Advertisement
         $periods = array(
             'day' => 1,
             'week' => 7,
-            'month' => 30,
         );
 
         if ($option !== null) {

@@ -12,12 +12,19 @@ class AdvertisementPrice
 
     const WEEK = 'week';
     const DAY = 'day';
+    const MAINPAGE = 'mainpage';
+    const SUBPAGES = 'subpages';
+
+    protected $translator;
 
     public function __toString() {
+        $this->translator = \Siciarek\AdRotatorBundle\SiciarekAdRotatorBundle::getContainer()->get('translator');
+
+
         if($this->getId() !== null) {
             return sprintf("%s (%s × %s) %s",
-                $this->getPrice() > 0 ? sprintf('%0.2f zł', $this->getPrice()) : 'free',
-                $this->getPeriod(),
+                $this->getPrice() > 0 ? sprintf('%0.2f zł', $this->getPrice()) : $this->translator->trans('free', array(), 'SiciarekAdRotator'),
+                $this->translator->trans($this->getPeriod(), array(), 'SiciarekAdRotator'),
                 $this->getDuration(),
                 $this->getDescription()
             );
@@ -30,6 +37,7 @@ class AdvertisementPrice
      */
     public function __construct()
     {
+
         $this->setMainpage(true);
         $this->setSubpages(false);
         $this->setDuration(1);
@@ -39,12 +47,13 @@ class AdvertisementPrice
     }
 
     public function getDescription() {
+        $this->translator = \Siciarek\AdRotatorBundle\SiciarekAdRotatorBundle::getContainer()->get('translator');
         $temp = array();
         if($this->getMainpage() === true) {
-            $temp[] = 'mainpage';
+            $temp[] = $this->translator->trans(self::MAINPAGE, array(), 'SiciarekAdRotator');
         }
         if($this->getSubpages() === true) {
-            $temp[] = 'subpages';
+            $temp[] = $this->translator->trans(self::SUBPAGES, array(), 'SiciarekAdRotator');
         }
 
         return implode(' + ', $temp);

@@ -7,9 +7,11 @@ Client List: Klienci
 Advertisement Type List: Typy reklam
 Advertisement Price List: Warianty reklam
 
+free: bezpłatnie
 day: dzień
 week: tydzień
-month: miesiąc
+mainpage: strona główna
+subpages: wszystkie podstrony
 
 errors:
     no_image_file: Nie podano pliku graficznego ani odnośnika.
