@@ -16,8 +16,9 @@ https://github.com/siciarek/ad-rotator-bundle/blob/master/src/Siciarek/AdRotator
 
 ## Development
 
-    - Source hosted at [GitHub](https://github.com/siciarek/ad-rotator-bundle)
-    - Report issues, questions, feature requests on [GitHub Issues](https://github.com/siciarek/ad-rotator-bundle/issues)
+- Source hosted at [GitHub](https://github.com/siciarek/ad-rotator-bundle)
+- Report issues, questions, feature requests on [GitHub Issues](https://github.com/siciarek/ad-rotator-bundle/issues)
+
 
 ## Authors
 
