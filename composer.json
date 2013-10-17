@@ -3,12 +3,14 @@
     "type": "library",
     "description": "SonataAdminBundle based Ad Rotator",
     "keywords": [
+        "symfony2",
+        "bundle",
+        "ad",
+        "ad rotator",
         "ads",
         "ads rotator",
-        "symfony2",
         "advertisement",
-        "advertisement rotator",
-        "bundle"
+        "advertisement rotator"
     ],
     "homepage": "http://github.com/siciarek/ad-rotator-bundle.git",
     "license": "MIT",
