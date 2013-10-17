@@ -24,4 +24,16 @@ AdvertisementPrice:
         period: week
         duration: 4
         price: 0
+    -
+        mainpage: true
+        subpages: false
+        period: week
+        duration: 1
+        price: 50.0
+    -
+        mainpage: true
+        subpages: true
+        period: week
+        duration: 3
+        price: 60.0
 

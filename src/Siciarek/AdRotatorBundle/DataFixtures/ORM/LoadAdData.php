@@ -26,6 +26,7 @@ class LoadAdData extends BaseFixture
             $obj->setSubpages($o['subpages']);
             $obj->setPeriod($o['period']);
             $obj->setDuration($o['duration']);
+            $obj->setPrice($o['price']);
 
             $om->persist($obj);
             $this->setReference('ad-price-' . (++$p), $obj);

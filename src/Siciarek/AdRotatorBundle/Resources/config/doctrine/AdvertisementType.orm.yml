@@ -25,6 +25,8 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementType:
                 - persist
             orderBy:
                 price: ASC
+                period: ASC
+                duration: ASC
     oneToMany:
         advertisements:
             targetEntity: Advertisement

@@ -3,7 +3,7 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
     repositoryClass: AdvertisementPriceRepository
     table: sar_ad_price
     namedQueries:
-        ordered: SELECT o FROM __CLASS__ o ORDER BY o.price DESC
+        ordered: SELECT o FROM __CLASS__ o ORDER BY o.price ASC, o.period ASC, o.duration ASC
     id:
         id:
             type: integer
