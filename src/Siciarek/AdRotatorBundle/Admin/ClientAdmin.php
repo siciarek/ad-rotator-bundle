@@ -49,7 +49,10 @@ class ClientAdmin extends DefaultAdmin
                 'label' => 'client.enabled',
                 'editable' => true,
             ))
-            ->add('name', null, array(
+            ->addIdentifier('id', null, array(
+                'label' => 'client.id',
+            ))
+            ->addIdentifier('name', null, array(
                 'label' => 'client.name',
             ))
             ->add('email', null, array(

@@ -51,6 +51,7 @@ price:
     all_types: Wszystkie typy
 
 client:
+    id: Numer
     enabled: Aktywny
     name: Nazwa
     email: Email
