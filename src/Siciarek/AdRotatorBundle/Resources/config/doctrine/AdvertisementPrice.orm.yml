@@ -32,13 +32,13 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
             joinTable:
                 name: sar_ad_price_ad_type
                 joinColumns:
-                    type_id:
+                    price_id:
                         referencedColumnName: id
                         nullable: false
                         unique: false
                         onDelete: CASCADE
                 inverseJoinColumns:
-                    price_id:
+                    type_id:
                         referencedColumnName: id
                         nullable: false
                         unique: false
