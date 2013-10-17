@@ -10,7 +10,7 @@ version = '1.0'
 release = version
 
 # Layout settings:
-language = 'polish'
+language = 'english'
 templates_path = ['_templates']
 exclude_patterns = ['_build']
 master_doc = 'index'
@@ -42,7 +42,7 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = 'images/siciarek.jpg'
+latex_logo = 'images/siciarek.jpg'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -59,3 +59,37 @@ latex_show_pagerefs = True
 
 # If false, no module index is generated.
 #latex_domain_indices = True
+
+# -----------------------------------------------------------------------------
+# http://symfony.com/doc/current/contributing/documentation/format.html
+# -----------------------------------------------------------------------------
+
+# ...
+sys.path.append(os.path.abspath('_exts'))
+
+# adding PhpLexer
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
+
+# ...
+# add the extensions to the list of extensions
+extensions = ['sensio.sphinx.refinclude', 'sensio.sphinx.configurationblock', 'sensio.sphinx.phpcode']
+
+# enable highlighting for PHP code not between ``<?php ... ?>`` by default
+lexers['php'] = PhpLexer(startinline=True)
+lexers['php-annotations'] = PhpLexer(startinline=True)
+lexers['php-standalone'] = PhpLexer(startinline=True)
+lexers['php-symfony'] = PhpLexer(startinline=True)
+
+# use PHP as the primary domain
+primary_domain = 'php'
+
+# set url for API links
+api_url = 'http://api.symfony.com/master/%s'
+
+# -----------------------------------------------------------------------------
+
+# Custom formats for sensio.sphinx.configurationblock
+from sensio.sphinx.configurationblock import ConfigurationBlock
+ConfigurationBlock.formats['bash'] = 'Linux'
+ConfigurationBlock.formats['bat'] = 'Windows'

@@ -60,7 +60,7 @@ forget to enable SiciarekAdRotatorBundle too:
         );
     }
 
-.. note::
+
 If a dependency is already enabled somewhere in your AppKernel.php, you don't need to enable it again.
 
 
@@ -108,8 +108,8 @@ uncomment:
 
     translator:      { fallback: %locale% }
 
-Set up routes
--------------
+Setting up routes
+-----------------
 
 In ``app/config/routing.yml`` add:
 
@@ -120,6 +120,21 @@ In ``app/config/routing.yml`` add:
         type:     annotation
         prefix:   /
 
+Setting up database
+-------------------
+
+To update your project's database, run following command
+
+.. code-block:: bash
+
+    php app/console doctrine:schema:update --force
+
+
+To insert some test data into you project's database, run following command
+
+.. code-block:: bash
+
+    php app/console doctrine:schema:update --force
 
 Cleaning up
 -----------
@@ -139,21 +154,3 @@ Usually, when installing new bundles, it's good practice to also delete your cac
 At this point, you should be able to use ``SiciarekAdRotatorBundle``, administration panel should be visible on page:
 
 http://yourprojectdomain.tld/admin/dashboard
-
-
-Database setup
---------------
-
-To update your project's database, run following command
-
-.. code-block:: bash
-
-    php app/console doctrine:schema:update --force
-
-
-To insert some test data into you project's database, run following command
-
-.. code-block:: bash
-
-    php app/console doctrine:schema:update --force
-
