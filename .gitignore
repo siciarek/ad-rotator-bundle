@@ -1,6 +1,9 @@
 # VCS
 .git
 
+__pycache__
+properties.cnf
+
 /src/Application
 # PHPStorm
 .idea
