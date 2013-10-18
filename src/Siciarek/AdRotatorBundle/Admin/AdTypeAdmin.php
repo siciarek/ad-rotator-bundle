@@ -2,8 +2,8 @@
 
 namespace Siciarek\AdRotatorBundle\Admin;
 
-use Siciarek\AdRotatorBundle\Entity\AdvertisementPriceRepository;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
+use Siciarek\AdRotatorBundle\Entity\AdPriceRepository;
+use Siciarek\AdRotatorBundle\Entity\AdType;
 use Doctrine\ORM\Query;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -11,8 +11,10 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
-class AdvertisementTypeAdmin extends DefaultAdmin
+class AdTypeAdmin extends DefaultAdmin
 {
+    protected $baseRoutePattern = 'sar/type';
+
     protected static $defaultDefinition = array(
         'width' => 468,
         'height' => 60,
@@ -20,7 +22,7 @@ class AdvertisementTypeAdmin extends DefaultAdmin
         'rotateAfter' => 30,
     );
 
-    protected function getDefinitionAsString(AdvertisementType $obj)
+    protected function getDefinitionAsString(AdType $obj)
     {
         $definition = $obj->getId() ? $obj->getDefinition() : self::$defaultDefinition;
         $definition = json_encode($definition);
@@ -29,7 +31,7 @@ class AdvertisementTypeAdmin extends DefaultAdmin
         return $definition;
     }
 
-    protected function encodeDefinition(AdvertisementType $obj)
+    protected function encodeDefinition(AdType $obj)
     {
         $definition = $obj->getDefinition();
         $definition = json_decode($definition);
@@ -40,10 +42,10 @@ class AdvertisementTypeAdmin extends DefaultAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         /**
-         * @var AdvertisementPriceRepository $repository
+         * @var AdPriceRepository $repository
          */
         $repository = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('SiciarekAdRotatorBundle:AdvertisementPrice');
+            ->getRepository('SiciarekAdRotatorBundle:AdPrice');
 
         /**
          * @var Query $prices
@@ -105,7 +107,7 @@ class AdvertisementTypeAdmin extends DefaultAdmin
         /**
          * @var Query $query
          */
-        $query = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')
+        $query = $em->getRepository('SiciarekAdRotatorBundle:AdType')
             ->createNamedQuery('maxid');
         $maxid = intval($query->getSingleScalarResult());
         $object->setId($maxid + 1);

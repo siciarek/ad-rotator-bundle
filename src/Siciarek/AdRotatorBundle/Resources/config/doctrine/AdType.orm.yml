@@ -1,6 +1,6 @@
-Siciarek\AdRotatorBundle\Entity\AdvertisementType:
+Siciarek\AdRotatorBundle\Entity\AdType:
     type: entity
-    repositoryClass: AdvertisementTypeRepository
+    repositoryClass: AdTypeRepository
     table: sar_ad_type
     namedQueries:
         count: SELECT COUNT(o) FROM __CLASS__ o
@@ -19,7 +19,7 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementType:
 
     manyToMany:
         prices:
-            targetEntity: AdvertisementPrice
+            targetEntity: AdPrice
             mappedBy: type
             cascade:
                 - persist
@@ -28,6 +28,6 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementType:
                 period: ASC
                 duration: ASC
     oneToMany:
-        advertisements:
-            targetEntity: Advertisement
+        ads:
+            targetEntity: Ad
             mappedBy: type

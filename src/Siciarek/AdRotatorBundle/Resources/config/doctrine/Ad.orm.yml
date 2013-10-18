@@ -1,6 +1,6 @@
-Siciarek\AdRotatorBundle\Entity\Advertisement:
+Siciarek\AdRotatorBundle\Entity\Ad:
     type: entity
-    repositoryClass: AdvertisementRepository
+    repositoryClass: AdRepository
     table: sar_ad_sale
     namedQueries:
         single: |
@@ -10,7 +10,7 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
                 LEFT JOIN a.type t
             WHERE
                 a.enabled = true
-            AND (a.starts_at <= :now AND a.expires_at >= :now OR a.everlasting = true)
+            AND (a.starts_at <= CURRENT_TIMESTAMP() AND a.expires_at >= CURRENT_TIMESTAMP() OR a.everlasting = true)
             AND c.enabled = true
             AND a.id = :id
         available: |
@@ -20,7 +20,7 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
                 LEFT JOIN a.type t
             WHERE
                 a.enabled = true
-            AND (a.starts_at <= :now AND a.expires_at >= :now OR a.everlasting = true)
+            AND (a.starts_at <= CURRENT_TIMESTAMP() AND a.expires_at >= CURRENT_TIMESTAMP() OR a.everlasting = true)
             AND c.enabled = true
             AND t.id = :type
 
@@ -81,11 +81,11 @@ Siciarek\AdRotatorBundle\Entity\Advertisement:
 
     manyToOne:
         option:
-            targetEntity: AdvertisementPrice
+            targetEntity: AdPrice
         type:
-            targetEntity: AdvertisementType
-            inversedBy: advertisements
+            targetEntity: AdType
+            inversedBy: ads
         client:
             targetEntity: Client
-            inversedBy: advertisements
+            inversedBy: ads
 

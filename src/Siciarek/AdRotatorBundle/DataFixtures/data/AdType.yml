@@ -1,6 +1,6 @@
 ---
 # http://designerstoolbox.com/designresources/banners/
-AdvertisementType:
+AdType:
 # Standard Web Banners
     - { id: 1, name: 468 x 60 Full Banner, definition: { width: 468, height: 60, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }
     - { id: 2, name: 728 x 90 Leaderboard, definition: { width: 728, height: 90, formats: jpeg;jpg;gif;png;svg;swf, rotateAfter: 30} }

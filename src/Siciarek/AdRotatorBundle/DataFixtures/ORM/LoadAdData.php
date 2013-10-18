@@ -3,9 +3,9 @@
 namespace Siciarek\AdRotatorBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Siciarek\AdRotatorBundle\Entity\Advertisement;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementPrice;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
+use Siciarek\AdRotatorBundle\Entity\Ad;
+use Siciarek\AdRotatorBundle\Entity\AdPrice;
+use Siciarek\AdRotatorBundle\Entity\AdType;
 use Siciarek\AdRotatorBundle\Entity\Client;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -20,8 +20,8 @@ class LoadAdData extends BaseFixture
     public function load(ObjectManager $om)
     {
         $p = 0;
-        foreach ($this->getData('AdvertisementPrice') as $o) {
-            $obj = new AdvertisementPrice();
+        foreach ($this->getData('AdPrice') as $o) {
+            $obj = new AdPrice();
             $obj->setMainpage($o['mainpage']);
             $obj->setSubpages($o['subpages']);
             $obj->setPeriod($o['period']);
@@ -34,8 +34,8 @@ class LoadAdData extends BaseFixture
 
         $om->flush();
 
-        foreach ($this->getData('AdvertisementType') as $o) {
-            $obj = new AdvertisementType();
+        foreach ($this->getData('AdType') as $o) {
+            $obj = new AdType();
             $obj->setId($o['id']);
             $obj->setName($o['name']);
             $obj->setDefinition($o['definition']);
@@ -65,8 +65,8 @@ class LoadAdData extends BaseFixture
 
         $om->flush();
 
-        foreach ($this->getData('Advertisement') as $o) {
-            $obj = new Advertisement();
+        foreach ($this->getData('Ad') as $o) {
+            $obj = new Ad();
             $obj->setEnabled($o['enabled']);
             $obj->setType($this->getReference('ad-type-' . $o['type']));
             $obj->setOption($this->getReference('ad-price-' . $o['option']));

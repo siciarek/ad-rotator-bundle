@@ -1,6 +1,6 @@
-Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
+Siciarek\AdRotatorBundle\Entity\AdPrice:
     type: entity
-    repositoryClass: AdvertisementPriceRepository
+    repositoryClass: AdPriceRepository
     table: sar_ad_price
     namedQueries:
         ordered: SELECT o FROM __CLASS__ o ORDER BY o.price ASC, o.period ASC, o.duration ASC
@@ -27,7 +27,7 @@ Siciarek\AdRotatorBundle\Entity\AdvertisementPrice:
 
     manyToMany:
         type:
-            targetEntity: AdvertisementType
+            targetEntity: AdType
             inversedBy: prices
             joinTable:
                 name: sar_ad_price_ad_type

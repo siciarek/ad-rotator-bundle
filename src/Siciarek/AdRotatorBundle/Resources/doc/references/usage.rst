@@ -13,7 +13,7 @@ To display radmized ads on your pages use twig helper.
 
 Parameters:
 
-    * ``type`` is a number of ad type, visible in the first column of ``Advertisement Type List`` list (in admin panel), (default: 1).
+    * ``type`` is a number of ad type, visible in the first column of ``Ad Type List`` list (in admin panel), (default: 1).
     * ``static`` is to be used when you **do not** want to rotate this ad dynamically after ``rotateAfter`` value in ``Ad type`` definition, (default: false).
 
 
@@ -25,7 +25,7 @@ To display specific ad on your pages use twig helper.
 
 Parameters:
 
-    * ``id`` is a number of specific ad, visible in the first column of ``Advertisement List`` (in admin panel).
+    * ``id`` is a number of specific ad, visible in the first column of ``Ad List`` (in admin panel).
 
 
 ``display_ad`` and ``display_single_ad`` can be called multiple times on one page.

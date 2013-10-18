@@ -5,9 +5,9 @@ namespace Siciarek\AdRotatorBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AdvertisementType
+ * AdType
  */
-class AdvertisementType
+class AdType
 {
     public function __toString() {
         return $this->getName()?:'';
@@ -18,7 +18,7 @@ class AdvertisementType
      */
     public function __construct()
     {
-        $this->advertisements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ads = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -30,10 +30,10 @@ class AdvertisementType
     /**
      * Add prices
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $prices
-     * @return AdvertisementType
+     * @param \Siciarek\AdRotatorBundle\Entity\AdPrice $prices
+     * @return AdType
      */
-    public function addPrice(\Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $prices)
+    public function addPrice(\Siciarek\AdRotatorBundle\Entity\AdPrice $prices)
     {
         $prices->addType($this);
         $this->prices[] = $prices;
@@ -44,9 +44,9 @@ class AdvertisementType
     /**
      * Remove prices
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $prices
+     * @param \Siciarek\AdRotatorBundle\Entity\AdPrice $prices
      */
-    public function removePrice(\Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $prices)
+    public function removePrice(\Siciarek\AdRotatorBundle\Entity\AdPrice $prices)
     {
         $prices->removeType($this);
         $this->prices->removeElement($prices);
@@ -65,21 +65,21 @@ class AdvertisementType
     private $name;
 
     /**
-     * @var json
+     * @var array
      */
     private $definition;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $advertisements;
+    private $ads;
 
 
     /**
      * Set id
      *
      * @param integer $id
-     * @return AdvertisementType
+     * @return AdType
      */
     public function setId($id)
     {
@@ -102,7 +102,7 @@ class AdvertisementType
      * Set name
      *
      * @param string $name
-     * @return AdvertisementType
+     * @return AdType
      */
     public function setName($name)
     {
@@ -124,8 +124,8 @@ class AdvertisementType
     /**
      * Set definition
      *
-     * @param json $definition
-     * @return AdvertisementType
+     * @param array $definition
+     * @return AdType
      */
     public function setDefinition($definition)
     {
@@ -137,7 +137,7 @@ class AdvertisementType
     /**
      * Get definition
      *
-     * @return json 
+     * @return array
      */
     public function getDefinition()
     {
@@ -145,36 +145,36 @@ class AdvertisementType
     }
 
     /**
-     * Add advertisements
+     * Add ads
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements
-     * @return AdvertisementType
+     * @param \Siciarek\AdRotatorBundle\Entity\Ad $ads
+     * @return AdType
      */
-    public function addAdvertisement(\Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements)
+    public function addAd(\Siciarek\AdRotatorBundle\Entity\Ad $ads)
     {
-        $this->advertisements[] = $advertisements;
+        $this->ads[] = $ads;
     
         return $this;
     }
 
     /**
-     * Remove advertisements
+     * Remove ads
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements
+     * @param \Siciarek\AdRotatorBundle\Entity\Ad $ads
      */
-    public function removeAdvertisement(\Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements)
+    public function removeAd(\Siciarek\AdRotatorBundle\Entity\Ad $ads)
     {
-        $this->advertisements->removeElement($advertisements);
+        $this->ads->removeElement($ads);
     }
 
     /**
-     * Get advertisements
+     * Get ads
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getAdvertisements()
+    public function getAds()
     {
-        return $this->advertisements;
+        return $this->ads;
     }
 
 

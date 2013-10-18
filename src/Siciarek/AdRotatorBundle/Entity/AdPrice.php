@@ -3,11 +3,12 @@
 namespace Siciarek\AdRotatorBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Translation\Translator;
 
 /**
- * AdvertisementPrice
+ * AdPrice
  */
-class AdvertisementPrice
+class AdPrice
 {
 
     const WEEK = 'week';
@@ -15,6 +16,9 @@ class AdvertisementPrice
     const MAINPAGE = 'mainpage';
     const SUBPAGES = 'subpages';
 
+    /**
+     * @var Translator
+     */
     protected $translator;
 
     public function __toString() {
@@ -111,7 +115,7 @@ class AdvertisementPrice
      * Set mainpage
      *
      * @param boolean $mainpage
-     * @return AdvertisementPrice
+     * @return AdPrice
      */
     public function setMainpage($mainpage)
     {
@@ -134,7 +138,7 @@ class AdvertisementPrice
      * Set subpages
      *
      * @param boolean $subpages
-     * @return AdvertisementPrice
+     * @return AdPrice
      */
     public function setSubpages($subpages)
     {
@@ -157,7 +161,7 @@ class AdvertisementPrice
      * Set duration
      *
      * @param integer $duration
-     * @return AdvertisementPrice
+     * @return AdPrice
      */
     public function setDuration($duration)
     {
@@ -180,7 +184,7 @@ class AdvertisementPrice
      * Set period
      *
      * @param string $period
-     * @return AdvertisementPrice
+     * @return AdPrice
      */
     public function setPeriod($period)
     {
@@ -203,7 +207,7 @@ class AdvertisementPrice
      * Set price
      *
      * @param string $price
-     * @return AdvertisementPrice
+     * @return AdPrice
      */
     public function setPrice($price)
     {
@@ -225,10 +229,10 @@ class AdvertisementPrice
     /**
      * Add type
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementType $type
-     * @return AdvertisementPrice
+     * @param \Siciarek\AdRotatorBundle\Entity\AdType $type
+     * @return AdPrice
      */
-    public function addType(\Siciarek\AdRotatorBundle\Entity\AdvertisementType $type)
+    public function addType(\Siciarek\AdRotatorBundle\Entity\AdType $type)
     {
         $this->type[] = $type;
     
@@ -238,9 +242,9 @@ class AdvertisementPrice
     /**
      * Remove type
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementType $type
+     * @param \Siciarek\AdRotatorBundle\Entity\AdType $type
      */
-    public function removeType(\Siciarek\AdRotatorBundle\Entity\AdvertisementType $type)
+    public function removeType(\Siciarek\AdRotatorBundle\Entity\AdType $type)
     {
         $this->type->removeElement($type);
     }

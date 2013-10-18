@@ -7,20 +7,20 @@ services:
         tags: [{ name: sonata.admin, manager_type: orm, label: Clients }]
         arguments: [ null, Siciarek\AdRotatorBundle\Entity\Client, SonataAdminBundle:CRUD ]
 
-    sar.admin.advertisement:
-        class: Siciarek\AdRotatorBundle\Admin\AdvertisementAdmin
+    sar.admin.ad:
+        class: Siciarek\AdRotatorBundle\Admin\AdAdmin
         tags: [{ name: sonata.admin, manager_type: orm, label: Sale }]
-        arguments: [ null, Siciarek\AdRotatorBundle\Entity\Advertisement, SonataAdminBundle:CRUD ]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\Ad, SonataAdminBundle:CRUD ]
 
-    sar.admin.advertisement_type:
-        class: Siciarek\AdRotatorBundle\Admin\AdvertisementTypeAdmin
+    sar.admin.ad_type:
+        class: Siciarek\AdRotatorBundle\Admin\AdTypeAdmin
         tags: [{ name: sonata.admin, manager_type: orm, label: Ad types }]
-        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdvertisementType, SonataAdminBundle:CRUD ]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdType, SonataAdminBundle:CRUD ]
 
-    sar.admin.advertisement_price:
-        class: Siciarek\AdRotatorBundle\Admin\AdvertisementPriceAdmin
+    sar.admin.ad_price:
+        class: Siciarek\AdRotatorBundle\Admin\AdPriceAdmin
         tags: [{ name: sonata.admin, manager_type: orm, label: Prices }]
-        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdvertisementPrice, SonataAdminBundle:CRUD ]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdPrice, SonataAdminBundle:CRUD ]
 
 
 sonata_admin:
@@ -36,7 +36,7 @@ sonata_admin:
             adrotator:
                 label: Ad Rotator
                 items:
-                    - sar.admin.advertisement
+                    - sar.admin.ad
                     - sar.admin.client
-                    - sar.admin.advertisement_type
-                    - sar.admin.advertisement_price
+                    - sar.admin.ad_type
+                    - sar.admin.ad_price

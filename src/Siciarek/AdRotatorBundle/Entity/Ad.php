@@ -7,9 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Advertisement
+ * Ad
  */
-class Advertisement
+class Ad
 {
 
     /**
@@ -78,7 +78,7 @@ class Advertisement
         $this->setFrequency(0);
         $this->setDisplayed(0);
         $this->setClicked(0);
-        $this->advertisements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ads = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     protected $uploadRootDir;
@@ -246,12 +246,12 @@ class Advertisement
     private $updated_at;
 
     /**
-     * @var \Siciarek\AdRotatorBundle\Entity\AdvertisementPrice
+     * @var \Siciarek\AdRotatorBundle\Entity\AdPrice
      */
     private $option;
 
     /**
-     * @var \Siciarek\AdRotatorBundle\Entity\AdvertisementType
+     * @var \Siciarek\AdRotatorBundle\Entity\AdType
      */
     private $type;
 
@@ -275,7 +275,7 @@ class Advertisement
      * Set title
      *
      * @param string $title
-     * @return Advertisement
+     * @return Ad
      */
     public function setTitle($title)
     {
@@ -298,7 +298,7 @@ class Advertisement
      * Set price
      *
      * @param string $price
-     * @return Advertisement
+     * @return Ad
      */
     public function setPrice($price)
     {
@@ -321,7 +321,7 @@ class Advertisement
      * Set displayed
      *
      * @param integer $displayed
-     * @return Advertisement
+     * @return Ad
      */
     public function setDisplayed($displayed)
     {
@@ -344,7 +344,7 @@ class Advertisement
      * Set clicked
      *
      * @param integer $clicked
-     * @return Advertisement
+     * @return Ad
      */
     public function setClicked($clicked)
     {
@@ -367,7 +367,7 @@ class Advertisement
      * Set slug
      *
      * @param string $slug
-     * @return Advertisement
+     * @return Ad
      */
     public function setSlug($slug)
     {
@@ -390,7 +390,7 @@ class Advertisement
      * Set path
      *
      * @param string $path
-     * @return Advertisement
+     * @return Ad
      */
     public function setPath($path)
     {
@@ -413,7 +413,7 @@ class Advertisement
      * Set leads_to
      *
      * @param string $leadsTo
-     * @return Advertisement
+     * @return Ad
      */
     public function setLeadsTo($leadsTo)
     {
@@ -436,7 +436,7 @@ class Advertisement
      * Set enabled
      *
      * @param boolean $enabled
-     * @return Advertisement
+     * @return Ad
      */
     public function setEnabled($enabled)
     {
@@ -459,7 +459,7 @@ class Advertisement
      * Set exclusive
      *
      * @param boolean $exclusive
-     * @return Advertisement
+     * @return Ad
      */
     public function setExclusive($exclusive)
     {
@@ -482,7 +482,7 @@ class Advertisement
      * Set everlasting
      *
      * @param boolean $everlasting
-     * @return Advertisement
+     * @return Ad
      */
     public function setEverlasting($everlasting)
     {
@@ -505,7 +505,7 @@ class Advertisement
      * Set starts_at
      *
      * @param \DateTime $startsAt
-     * @return Advertisement
+     * @return Ad
      */
     public function setStartsAt($startsAt)
     {
@@ -528,7 +528,7 @@ class Advertisement
      * Set expires_at
      *
      * @param \DateTime $expiresAt
-     * @return Advertisement
+     * @return Ad
      */
     public function setExpiresAt($expiresAt)
     {
@@ -551,7 +551,7 @@ class Advertisement
      * Set frequency
      *
      * @param integer $frequency
-     * @return Advertisement
+     * @return Ad
      */
     public function setFrequency($frequency)
     {
@@ -574,7 +574,7 @@ class Advertisement
      * Set created_at
      *
      * @param \DateTime $createdAt
-     * @return Advertisement
+     * @return Ad
      */
     public function setCreatedAt($createdAt)
     {
@@ -597,7 +597,7 @@ class Advertisement
      * Set updated_at
      *
      * @param \DateTime $updatedAt
-     * @return Advertisement
+     * @return Ad
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -619,10 +619,10 @@ class Advertisement
     /**
      * Set option
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $option
-     * @return Advertisement
+     * @param \Siciarek\AdRotatorBundle\Entity\AdPrice $option
+     * @return Ad
      */
-    public function setOption(\Siciarek\AdRotatorBundle\Entity\AdvertisementPrice $option = null)
+    public function setOption(\Siciarek\AdRotatorBundle\Entity\AdPrice $option = null)
     {
         $this->option = $option;
 
@@ -632,7 +632,7 @@ class Advertisement
     /**
      * Get option
      *
-     * @return \Siciarek\AdRotatorBundle\Entity\AdvertisementPrice
+     * @return \Siciarek\AdRotatorBundle\Entity\AdPrice
      */
     public function getOption()
     {
@@ -642,10 +642,10 @@ class Advertisement
     /**
      * Set type
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\AdvertisementType $type
-     * @return Advertisement
+     * @param \Siciarek\AdRotatorBundle\Entity\AdType $type
+     * @return Ad
      */
-    public function setType(\Siciarek\AdRotatorBundle\Entity\AdvertisementType $type = null)
+    public function setType(\Siciarek\AdRotatorBundle\Entity\AdType $type = null)
     {
         $this->type = $type;
 
@@ -655,7 +655,7 @@ class Advertisement
     /**
      * Get type
      *
-     * @return \Siciarek\AdRotatorBundle\Entity\AdvertisementType
+     * @return \Siciarek\AdRotatorBundle\Entity\AdType
      */
     public function getType()
     {
@@ -666,7 +666,7 @@ class Advertisement
      * Set client
      *
      * @param \Siciarek\AdRotatorBundle\Entity\Client $client
-     * @return Advertisement
+     * @return Ad
      */
     public function setClient(\Siciarek\AdRotatorBundle\Entity\Client $client = null)
     {

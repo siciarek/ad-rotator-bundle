@@ -5,7 +5,7 @@ namespace Siciarek\AdRotatorBundle\Twig\Extension;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Siciarek\AdRotatorBundle\Controller\DefaultController;
-use Siciarek\AdRotatorBundle\Entity\Advertisement;
+use Siciarek\AdRotatorBundle\Entity\Ad;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Templating\Helper\Helper;
@@ -64,23 +64,21 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      */
     public function displaySingleAd(\Twig_Environment $twig, $id)
     {
-
-        $now = new \DateTime();
         $em = $this->container->get('doctrine.orm.entity_manager');
 
         /**
          * @var Query $query
          */
-        $query = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')
+        $query = $em->getRepository('SiciarekAdRotatorBundle:Ad')
             ->createNamedQuery('single')
             ->setParameter('id', intval($id))
-            ->setParameter('now', $now);
+        ;
 
         $ads = $query->getResult();
 
         if (count($ads) > 0) {
             /**
-             * @var Advertisement $ad
+             * @var Ad $ad
              */
             $ad = $ads[0];
             $ad->setDisplayed($ad->getDisplayed() + 1);

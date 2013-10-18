@@ -3,10 +3,12 @@
 namespace Siciarek\AdRotatorBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Siciarek\AdRotatorBundle\Entity\Advertisement;
+use Doctrine\ORM\Query;
+use Siciarek\AdRotatorBundle\Entity\Ad;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
@@ -25,9 +27,9 @@ class DefaultController extends Controller
          * @var EntityManager $em
          */
         $em = $this->getDoctrine()->getManager();
-        $ad = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')->findOneBy(array('slug' => $slug));
+        $ad = $em->getRepository('SiciarekAdRotatorBundle:Ad')->findOneBy(array('slug' => $slug));
 
-        if ($ad instanceof Advertisement) {
+        if ($ad instanceof Ad) {
             $ad->setClicked($ad->getClicked() + 1);
             $em->persist($ad);
             $em->flush();
@@ -48,9 +50,9 @@ class DefaultController extends Controller
          * @var EntityManager $em
          */
         $em = $this->getDoctrine()->getManager();
-        $ad = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')->findOneBy(array('slug' => $slug));
+        $ad = $em->getRepository('SiciarekAdRotatorBundle:Ad')->findOneBy(array('slug' => $slug));
 
-        if (!$ad instanceof Advertisement) {
+        if (!$ad instanceof Ad) {
             throw $this->createNotFoundException();
         }
 
@@ -67,7 +69,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/landing-page/{slug}", name="_sar_landing_page")
-     * @Template()
      */
     public function landingPageAction($slug)
     {
@@ -75,9 +76,9 @@ class DefaultController extends Controller
          * @var EntityManager $em
          */
         $em = $this->getDoctrine()->getManager();
-        $ad = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')->findOneBy(array('slug' => $slug));
+        $ad = $em->getRepository('SiciarekAdRotatorBundle:Ad')->findOneBy(array('slug' => $slug));
 
-        if (!$ad instanceof Advertisement) {
+        if (!$ad instanceof Ad) {
             throw $this->createNotFoundException();
         }
 
@@ -100,7 +101,6 @@ class DefaultController extends Controller
 
     /**
      * @Route("/data/{type}/c/{count}", defaults={"type":1,"count":1}, requirements={"type":"^[1-9]\d*$", "count":"^[1-9]\d*$"}, name="_sar_data")
-     * @Template()
      */
     public function jsonAction($count, $type)
     {
@@ -110,10 +110,9 @@ class DefaultController extends Controller
          * @var EntityManager $em
          */
         $em = $this->getDoctrine()->getManager();
-        $ads = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')
+        $ads = $em->getRepository('SiciarekAdRotatorBundle:Ad')
             ->createNamedQuery('available')
             ->setParameter('type', $type)
-            ->setParameter('now', $now)
             ->getResult();
 
         $data = array();
@@ -133,7 +132,7 @@ class DefaultController extends Controller
                 $used[] = $aid;
 
                 /**
-                 * @var Advertisement $ad
+                 * @var Ad $ad
                  */
                 $ad = $ads[$aid];
                 // Inkrementacja wyświetleń:
@@ -149,17 +148,20 @@ class DefaultController extends Controller
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
 
-    public static function getAd($type, $container)
+    public static function getAd($type, Container $container)
     {
-
-        $now = new \DateTime();
-
+        /**
+         * @var EntityManager $em
+         */
         $em = $container->get('doctrine.orm.entity_manager');
 
-        $query = $em->getRepository('SiciarekAdRotatorBundle:Advertisement')
+        /**
+         * @var Query $query
+         */
+        $query = $em->getRepository('SiciarekAdRotatorBundle:Ad')
             ->createNamedQuery('available')
             ->setParameter('type', $type)
-            ->setParameter('now', $now);
+        ;
 
         $ads = $query->getResult();
 
@@ -170,7 +172,7 @@ class DefaultController extends Controller
             $aid = DefaultController::getAdId($ads);
 
             /**
-             * @var Advertisement $ad
+             * @var Ad $ad
              */
             $ad = $ads[$aid];
 
@@ -189,10 +191,10 @@ class DefaultController extends Controller
 
     /**
      * Returns ad data as a simple array, useful for ajax usage
-     * @param Advertisement $ad
+     * @param Ad $ad
      * @return array
      */
-    public static function getAdData(Advertisement $ad, $container)
+    public static function getAdData(Ad $ad, Container $container)
     {
         $path = $ad->getPath();
         $src = null;
@@ -202,8 +204,6 @@ class DefaultController extends Controller
         if ($ad->getLeadsTo() !== null) {
             $href = $container->get('router')->generate('_sar_landing_page', array('slug' => $ad->getSlug()), true);
         }
-
-        $baseurl = preg_replace('|^(.*?)/sar/.*?$|', '$1', $href);
 
         if (preg_match('|^https?://|', $path)) {
             $src = $path;

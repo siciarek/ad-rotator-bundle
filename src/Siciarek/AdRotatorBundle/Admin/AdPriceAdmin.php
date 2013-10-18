@@ -3,48 +3,48 @@
 namespace Siciarek\AdRotatorBundle\Admin;
 
 use Doctrine\ORM\EntityManager;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementPrice;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
+use Siciarek\AdRotatorBundle\Entity\AdPrice;
+use Siciarek\AdRotatorBundle\Entity\AdType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 
-class AdvertisementPriceAdmin extends DefaultAdmin
+class AdPriceAdmin extends DefaultAdmin
 {
+    protected $baseRoutePattern = 'sar/price';
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $periods = array(
-            AdvertisementPrice::WEEK,
-            AdvertisementPrice::DAY,
+            AdPrice::WEEK,
+            AdPrice::DAY,
         );
 
-        $formMapper
-            ->with('tabs.price.price')
-            ->add('mainpage', null, array(
-                'label' => 'price.mainpage',
-                'required' => false,
-            ))
-            ->add('subpages', null, array(
-                'label' => 'price.subpages',
-                'required' => false,
-            ))
-            ->add('price', 'money', array(
-                'label' => 'price.price',
-                'currency' => 'PLN'
-            ))
-            ->add('period', 'sonata_type_translatable_choice', array(
-                'label' => 'price.period',
-                'choices' => array_combine($periods, $periods),
-                'catalogue' => 'SiciarekAdRotator'
-            ))
-            ->add('duration', null, array(
-                'label' => 'price.duration',
-            ))
-        ;
+        $formMapper->with('tabs.price.price');
+        $formMapper->add('mainpage', null, array(
+            'label' => 'price.mainpage',
+            'required' => false,
+        ));
+        $formMapper->add('subpages', null, array(
+            'label' => 'price.subpages',
+            'required' => false,
+        ));
+        $formMapper->add('price', 'money', array(
+            'label' => 'price.price',
+            'currency' => 'PLN'
+        ));
+        $formMapper->add('period', 'sonata_type_translatable_choice', array(
+            'label' => 'price.period',
+            'choices' => array_combine($periods, $periods),
+            'catalogue' => 'SiciarekAdRotator'
+        ));
+        $formMapper->add('duration', null, array(
+            'label' => 'price.duration',
+        ));
 
-        if($this->getSubject()->getId() === null) {
+        if ($this->getSubject()->getId() === null) {
             $formMapper->add('all_types', 'checkbox', array(
                 'label' => 'price.all_types',
                 'required' => false,
@@ -93,19 +93,19 @@ class AdvertisementPriceAdmin extends DefaultAdmin
         }
 
         /**
-         * @var AdvertisementPrice $object
+         * @var AdPrice $object
          */
 
         /**
          * @var EntityManager $em
          */
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
-        $typesRepo = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType');
+        $typesRepo = $em->getRepository('SiciarekAdRotatorBundle:AdType');
 
         $types = $typesRepo->findAll();
 
         /**
-         * @var AdvertisementType $t
+         * @var AdType $t
          */
         foreach ($types as $t) {
 

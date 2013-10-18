@@ -6,8 +6,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Siciarek\AdRotatorBundle\Form\Type\DatePickerType;
-use Siciarek\AdRotatorBundle\Entity\Advertisement;
-use Siciarek\AdRotatorBundle\Entity\AdvertisementType;
+use Siciarek\AdRotatorBundle\Entity\Ad;
+use Siciarek\AdRotatorBundle\Entity\AdType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -16,8 +16,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AdvertisementAdmin extends DefaultAdmin
+class AdAdmin extends DefaultAdmin
 {
+    protected $baseRoutePattern = 'sar/sale';
+
     protected function configureRoutes(RouteCollection $collection)
     {
 
@@ -26,7 +28,7 @@ class AdvertisementAdmin extends DefaultAdmin
          */
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
 
-        $types_count = intval($em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')
+        $types_count = intval($em->getRepository('SiciarekAdRotatorBundle:AdType')
             ->createNamedQuery('count')
             ->getSingleScalarResult());
 
@@ -81,9 +83,9 @@ IMG;
 
         if ($type_id === 0) {
             if ($this->getSubject()->getId() === null) {
-                $types = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')->findAll();
+                $types = $em->getRepository('SiciarekAdRotatorBundle:AdType')->findAll();
                 /**
-                 * @var AdvertisementType $t
+                 * @var AdType $t
                  */
                 $type = array_shift($types);
                 $type_id = count($types) > 0 ? $type->getId() : 0;
@@ -100,9 +102,9 @@ IMG;
             'multiple' => false,
         );
 
-        $preferred_type = $em->getRepository('SiciarekAdRotatorBundle:AdvertisementType')->find($type_id);
+        $preferred_type = $em->getRepository('SiciarekAdRotatorBundle:AdType')->find($type_id);
 
-        if ($preferred_type instanceof AdvertisementType) {
+        if ($preferred_type instanceof AdType) {
             $option_options['choices'] = $preferred_type->getPrices();
         }
 
@@ -116,63 +118,62 @@ IMG;
             $this->getSubject()->setType($preferred_type);
         }
 
-        $formMapper
-            ->with('tabs.sale.sale')
-            ->add('enabled', null, array(
-                'label' => 'sale.enabled',
-                'required' => false,
-            ))
-            ->add('type', null, array(
-                'label' => 'sale.type',
-                'required' => true,
-                'attr' => array(
-                    'onchange' => $type_onchange,
-                )
-            ))
-            ->add('option', null, $option_options)
-            ->add('client', 'sonata_type_model', array(
-                'label' => 'sale.client',
-                'required' => true,
-                'empty_value' => 'Select from list',
-            ))
-            ->add('title', null, array(
-                'label' => 'sale.title',
-                'trim' => true,
-                'required' => false,
-                'help' => 'Jeżeli tytuł nie zostanie podany wprowadzona zostanie nazwa klienta.'
-            ))
-            ->add('leads_to', 'url', array(
-                'label' => 'sale.leads_to',
-                'trim' => true,
-                'required' => false
-            ))
-            ->add('uploaded_file', 'file', array(
-                'label' => 'sale.file',
-                'required' => false,
-                'help' => $img,
-            ))
+        $formMapper->with('tabs.sale.sale');
+        $formMapper->add('enabled', null, array(
+            'label' => 'sale.enabled',
+            'required' => false,
+        ));
+        $formMapper->add('type', null, array(
+            'label' => 'sale.type',
+            'required' => true,
+            'attr' => array(
+                'onchange' => $type_onchange,
+            )
+        ));
+        $formMapper->add('option', null, $option_options);
+        $formMapper->add('client', 'sonata_type_model', array(
+            'label' => 'sale.client',
+            'required' => true,
+            'empty_value' => 'Select from list',
+        ));
+        $formMapper->add('title', null, array(
+            'label' => 'sale.title',
+            'trim' => true,
+            'required' => false,
+            'help' => 'Jeżeli tytuł nie zostanie podany wprowadzona zostanie nazwa klienta.'
+        ));
+        $formMapper->add('leads_to', 'url', array(
+            'label' => 'sale.leads_to',
+            'trim' => true,
+            'required' => false
+        ));
+        $formMapper->add('uploaded_file', 'file', array(
+            'label' => 'sale.file',
+            'required' => false,
+            'help' => $img,
+        ));
 
-            ->with('tabs.sale.displaying_params')
-            ->add('exclusive', null, array(
-                'label' => 'sale.exclusive',
-                'required' => false,
-            ))
-            ->add('everlasting', null, array(
-                'label' => 'sale.everlasting',
-                'required' => false,
-            ))
-            ->add('starts_at', new DatePickerType(), array(
-                'label' => 'sale.starts_at',
-                'required' => false,
-            ))
+        $formMapper->with('tabs.sale.displaying_params');
+        $formMapper->add('exclusive', null, array(
+            'label' => 'sale.exclusive',
+            'required' => false,
+        ));
+        $formMapper->add('everlasting', null, array(
+            'label' => 'sale.everlasting',
+            'required' => false,
+        ));
+        $formMapper->add('starts_at', new DatePickerType(), array(
+            'label' => 'sale.starts_at',
+            'required' => false,
+        ));
 
-            ->with('tabs.sale.url')
-            ->add('path', null, array(
-                'label' => 'sale.path',
-                'trim' => true,
-                'required' => false,
-                'help' => 'help.sale.path',
-            ));
+        $formMapper->with('tabs.sale.url');
+        $formMapper->add('path', null, array(
+            'label' => 'sale.path',
+            'trim' => true,
+            'required' => false,
+            'help' => 'help.sale.path',
+        ));
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -205,8 +206,7 @@ IMG;
             ->add('title')
             ->add('client')
             ->add('type')
-            ->add('enabled')
-        ;
+            ->add('enabled');
     }
 
     public function prePersist($object)
@@ -219,7 +219,7 @@ IMG;
         $this->updateObject($object);
     }
 
-    public function updateObject(Advertisement $object)
+    public function updateObject(Ad $object)
     {
         $path = $object->getPath();
 
@@ -235,7 +235,7 @@ IMG;
 
         /**
          * @var UploadedFile $file
-         * @var Advertisement $object
+         * @var Ad $object
          */
         $file = $object->getUploadedFile();
 

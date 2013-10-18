@@ -19,7 +19,7 @@ class Client
     public function __construct()
     {
         $this->setEnabled(true);
-        $this->advertisements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ads = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -75,7 +75,7 @@ class Client
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $advertisements;
+    private $ads;
 
     /**
      * Set id
@@ -308,35 +308,35 @@ class Client
     }
 
     /**
-     * Add advertisements
+     * Add ads
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements
+     * @param \Siciarek\AdRotatorBundle\Entity\Ad $ads
      * @return Client
      */
-    public function addAdvertisement(\Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements)
+    public function addAd(\Siciarek\AdRotatorBundle\Entity\Ad $ads)
     {
-        $this->advertisements[] = $advertisements;
+        $this->ads[] = $ads;
     
         return $this;
     }
 
     /**
-     * Remove advertisements
+     * Remove ads
      *
-     * @param \Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements
+     * @param \Siciarek\AdRotatorBundle\Entity\Ad $ads
      */
-    public function removeAdvertisement(\Siciarek\AdRotatorBundle\Entity\Advertisement $advertisements)
+    public function removeAd(\Siciarek\AdRotatorBundle\Entity\Ad $ads)
     {
-        $this->advertisements->removeElement($advertisements);
+        $this->ads->removeElement($ads);
     }
 
     /**
-     * Get advertisements
+     * Get ads
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getAdvertisements()
+    public function getAds()
     {
-        return $this->advertisements;
+        return $this->ads;
     }
 }

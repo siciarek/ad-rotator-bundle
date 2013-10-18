@@ -5,6 +5,7 @@
 
     <loadproperties srcFile="properties.cnf"/>
 
+    <property name="phpunit" value="bin/phpunit.bat"/>
     <property name="composer.phar" value="../composer.phar"/>
     <property name="doc.source.dir" value="src/Siciarek/AdRotatorBundle/Resources/doc"/>
     <property name="doc.html.target.dir" value="web/docs"/>
@@ -55,7 +56,7 @@
     <target name="fix" depends="fx"/>
 
     <target name="ut">
-        <exec executable="bin/phpunit.bat">
+        <exec executable="${phpunit}">
             <arg line="-c app/phpunit.xml.dist"/>
         </exec>
     </target>

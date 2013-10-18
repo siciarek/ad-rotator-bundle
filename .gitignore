@@ -1,6 +1,7 @@
 # VCS
 .git
 
+/bin
 __pycache__
 properties.cnf
 
