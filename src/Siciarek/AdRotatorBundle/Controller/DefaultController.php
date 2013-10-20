@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/increment-clicks/{slug}", name="_sar_increment_clicks")
+     * @Route("/click/{slug}", name="_sar_increment_clicks")
      */
     public function incrementClicksAction($slug)
     {
@@ -41,7 +41,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/file/{slug}", name="_sar_file")
+     * @Route("/display/{slug}", name="_sar_file")
      * @Cache(expires="tomorrow")
      */
     public function fileAction($slug)
@@ -89,7 +89,6 @@ class DefaultController extends Controller
         return $this->redirect($ad->getLeadsTo());
     }
 
-
     /**
      * @Route("/{type}", defaults={"type":1}, requirements={"type":"^[1-9]\d*$"}, name="_sar_index")
      * @Template()
@@ -104,16 +103,11 @@ class DefaultController extends Controller
      */
     public function jsonAction($count, $type)
     {
-        $now = new \DateTime();
-
         /**
          * @var EntityManager $em
          */
         $em = $this->getDoctrine()->getManager();
-        $ads = $em->getRepository('SiciarekAdRotatorBundle:Ad')
-            ->createNamedQuery('available')
-            ->setParameter('type', $type)
-            ->getResult();
+        $ads = self::getAvailableAds($type);
 
         $data = array();
 
@@ -148,6 +142,26 @@ class DefaultController extends Controller
         return new Response(json_encode($data), 200, array('Content-Type' => 'application/json'));
     }
 
+    public static function getAvailableAds($type)
+    {
+
+        $container = \Siciarek\AdRotatorBundle\SiciarekAdRotatorBundle::getContainer();
+        $em = $container->get('doctrine.orm.entity_manager');
+        $sess = $container->get('session');
+
+        /**
+         * @var Query $query
+         */
+        $query = $em
+            ->getRepository('SiciarekAdRotatorBundle:Ad')
+            ->createNamedQuery('available')
+            ->setParameter('type', $type);
+
+        $ads = $query->getResult();
+
+        return $ads;
+    }
+
     public static function getAd($type, Container $container)
     {
         /**
@@ -155,15 +169,8 @@ class DefaultController extends Controller
          */
         $em = $container->get('doctrine.orm.entity_manager');
 
-        /**
-         * @var Query $query
-         */
-        $query = $em->getRepository('SiciarekAdRotatorBundle:Ad')
-            ->createNamedQuery('available')
-            ->setParameter('type', $type)
-        ;
 
-        $ads = $query->getResult();
+        $ads = self::getAvailableAds($type);
 
         $item = null;
 

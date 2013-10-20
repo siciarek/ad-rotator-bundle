@@ -2,6 +2,7 @@
 
 namespace Siciarek\AdRotatorBundle\Twig\Extension;
 
+use Assetic\Test\Filter\JSMinFilterTest;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Siciarek\AdRotatorBundle\Controller\DefaultController;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class SiciarekAdRotatorExtension extends \Twig_Extension
 {
 
+    private static $firstAdSet = false;
     /**
      * @var \Symfony\Component\DependencyInjection\Container
      */
@@ -107,6 +109,22 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
     {
         $params = DefaultController::getAd($type, $this->container);
         $params['static'] = $static;
-        return $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
+        $output = $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
+
+        if(self::$firstAdSet === false) {
+            $javascript ="
+<script>
+    //<![CDATA[
+    if (typeof jQuery === 'undefined') {
+        document.write('<scr' + 'ipt src=\"//code.jquery.com/jquery.js\"></scr' + 'ipt>');
+    }
+    //]]>
+</script><script src=\"/bundles/siciarekadrotator/js/sar.js\"></script>
+";
+            $output = $javascript . $output;
+            self::$firstAdSet = true;
+        }
+
+        return $output;
     }
 }
