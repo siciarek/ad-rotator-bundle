@@ -112,15 +112,12 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
         $output = $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
 
         if(self::$firstAdSet === false) {
-            $javascript ="
-<script>
-    //<![CDATA[
-    if (typeof jQuery === 'undefined') {
-        document.write('<scr' + 'ipt src=\"//code.jquery.com/jquery.js\"></scr' + 'ipt>');
-    }
-    //]]>
-</script><script src=\"/bundles/siciarekadrotator/js/sar.js\"></script>
-";
+            $jsparams = array(
+                'sarRotateAfter' => 30,
+                'sarDataUrl' => '/sar/data/__TYPE__/c/__COUNT__',
+                'sarIncrementClicksUrl' => '/sar/click/__SLUG__',
+            );
+            $javascript = $twig->render('SiciarekAdRotatorBundle:Default:script.html.twig', $jsparams);
             $output = $javascript . $output;
             self::$firstAdSet = true;
         }
