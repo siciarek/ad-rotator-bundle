@@ -111,11 +111,13 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
         $params['static'] = $static;
         $output = $twig->render('SiciarekAdRotatorBundle:Default:index.html.twig', $params);
 
+        $router = $this->container->get('router');
+
         if(self::$firstAdSet === false) {
             $jsparams = array(
                 'sarRotateAfter' => 30,
-                'sarDataUrl' => '/sar/data/__TYPE__/c/__COUNT__',
-                'sarIncrementClicksUrl' => '/sar/click/__SLUG__',
+                'sarDataUrl' =>  $router->generate('_sar_data', array('type' => '__TYPE__', 'count' => '__COUNT__'), true),
+                'sarIncrementClicksUrl' => $router->generate('_sar_increment_clicks', array('slug' => '__SLUG__'), true),
             );
             $javascript = $twig->render('SiciarekAdRotatorBundle:Default:script.html.twig', $jsparams);
             $output = $javascript . $output;

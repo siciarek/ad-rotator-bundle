@@ -99,7 +99,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/data/{type}/c/{count}", defaults={"type":1,"count":1}, requirements={"type":"^[1-9]\d*$", "count":"^[1-9]\d*$"}, name="_sar_data")
+     * @Route("/data/{type}/c/{count}", defaults={"type":1,"count":1}, requirements={"type":"^[1-9]\d*|__TYPE__$", "count":"^[1-9]\d*|__COUNT__$"}, name="_sar_data")
      */
     public function jsonAction($count, $type)
     {
