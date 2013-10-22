@@ -5,10 +5,12 @@ namespace Siciarek\AdRotatorBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Siciarek\AdRotatorBundle\Entity\Ad;
+use Siciarek\AdRotatorBundle\Entity\AdClick;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
@@ -18,7 +20,60 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
  */
 class DefaultController extends Controller
 {
+
+    protected function getGeoIpData($ip) {
+        $html = file_get_contents(sprintf('http://www.geoiptool.com/en/?IP=%s', $ip));
+        $crawler = new Crawler($html);
+        $temp = $crawler->filterXPath('//table[@class="tbl_style"][3]')->html();
+        $temp = strip_tags($temp);
+
+        $atemp = explode("\n", $temp);
+        array_shift($atemp);
+
+        $tdata = array();
+
+        $key = null;
+
+        foreach($atemp as $t) {
+            if(preg_match('/:/', $t)) {
+                $key = preg_replace('/:/', '', trim($t));
+                $key = preg_replace('/\s+/', "_", $key);
+                $key = strtolower($key);
+                continue;
+            }
+            $tdata[$key][] = $t;
+        }
+
+        $data = array();
+
+        foreach($tdata as $key => $val) {
+            $val = trim(implode(' ', $val));
+            $data[$key] = (!empty($val) and $val !== '+' and $val !== '()') ? $val : null;
+        }
+
+        return $data;
+    }
+
+    protected function handleClick(Ad $ad, EntityManager $em) {
+        $ip = $this->getRequest()->getClientIp();
+        $browser = $this->getRequest()->attributes->get('_browser');
+        $geo = $this->getGeoIpData($ip);
+
+        $click = new AdClick();
+        $click->setAd($ad);
+        $click->setIp($ip);
+        $click->setGeo($geo);
+        $click->setBrowser($browser);
+
+        $ad->setClicked($ad->getClicked() + 1);
+        $em->persist($ad);
+        $em->persist($click);
+        $em->flush();
+    }
+
     /**
+     * For ads with embeded redirect function.
+     *
      * @Route("/click/{slug}", name="_sar_increment_clicks")
      */
     public function incrementClicksAction($slug)
@@ -30,9 +85,7 @@ class DefaultController extends Controller
         $ad = $em->getRepository('SiciarekAdRotatorBundle:Ad')->findOneBy(array('slug' => $slug));
 
         if ($ad instanceof Ad) {
-            $ad->setClicked($ad->getClicked() + 1);
-            $em->persist($ad);
-            $em->flush();
+            $this->handleClick($ad, $em);
 
             return new Response('OK');
         }
@@ -82,9 +135,7 @@ class DefaultController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $ad->setClicked($ad->getClicked() + 1);
-        $em->persist($ad);
-        $em->flush();
+        $this->handleClick($ad, $em);
 
         return $this->redirect($ad->getLeadsTo());
     }

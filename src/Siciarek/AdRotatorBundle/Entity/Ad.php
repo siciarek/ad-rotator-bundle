@@ -2,6 +2,7 @@
 
 namespace Siciarek\AdRotatorBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Siciarek\AdRotatorBundle\Utils\Time;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -78,7 +79,7 @@ class Ad
         $this->setFrequency(0);
         $this->setDisplayed(0);
         $this->setClicked(0);
-        $this->ads = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clicks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     protected $uploadRootDir;
@@ -136,7 +137,6 @@ class Ad
         return $this->uploaded_file;
     }
 
-
 // STEP THREE:
 
     public function upload($file_setter = 'setPath')
@@ -164,6 +164,7 @@ class Ad
     }
 
 //////////////////////////////////////////////////////////
+
 
     /**
      * @var integer
@@ -360,7 +361,7 @@ class Ad
      */
     public function getClicked()
     {
-        return $this->clicked;
+        return $this->getClicks()->count();
     }
 
     /**
@@ -683,5 +684,44 @@ class Ad
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @var ArrayCollection
+     */
+    private $clicks;
+
+    /**
+     * Get clicks
+     *
+     * @return ArrayCollection
+     */
+    public function getClicks() {
+        return $this->clicks;
+    }
+
+    /**
+     * Add click
+     *
+     * @param \Siciarek\AdRotatorBundle\Entity\AdClick $click
+     * @return Ad
+     */
+    public function addClick(\Siciarek\AdRotatorBundle\Entity\AdClick $click)
+    {
+        $click->setAd($this);
+        $this->clicks[] = $click;
+
+        return $this;
+    }
+
+    /**
+     * Remove click
+     *
+     * @param \Siciarek\AdRotatorBundle\Entity\AdClick $click
+     */
+    public function removeClick(\Siciarek\AdRotatorBundle\Entity\AdPrice $click)
+    {
+        $click->removeType($this);
+        $this->clicks->removeElement($click);
     }
 }

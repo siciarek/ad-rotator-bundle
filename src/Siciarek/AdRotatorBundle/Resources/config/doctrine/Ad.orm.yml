@@ -79,6 +79,10 @@ Siciarek\AdRotatorBundle\Entity\Ad:
 
 # RELATIONS -------------------------------------
 
+    oneToMany:
+        clicks:
+            targetEntity: AdClick
+            mappedBy: ad
     manyToOne:
         option:
             targetEntity: AdPrice

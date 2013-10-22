@@ -1,0 +1,29 @@
+Siciarek\AdRotatorBundle\Entity\AdClick:
+    type: entity
+    repositoryClass: AdClickRepository
+    table: sar_ad_click
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        ip: ~
+        browser:
+            type: json
+            nullable: true
+        geo:
+            type: json
+            nullable: true
+        created_at:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+
+# RELATIONS -------------------------------------
+
+    manyToOne:
+        ad:
+            targetEntity: Ad
+            inversedBy: clicks
