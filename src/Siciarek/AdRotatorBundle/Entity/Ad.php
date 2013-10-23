@@ -46,12 +46,10 @@ class Ad
         );
 
         if ($option !== null) {
-            if ($end === null) {
-                $period = $option->getPeriod();
-                $duration = $option->getDuration();
-                $days = $periods[$period] * $duration;
-                $this->setExpiresAt(Time::getDate($days, $start));
-            }
+            $period = $option->getPeriod();
+            $duration = $option->getDuration();
+            $days = $periods[$period] * $duration;
+            $this->setExpiresAt(Time::getDate($days, $start));
             $this->setPrice($option->getPrice());
         }
 
