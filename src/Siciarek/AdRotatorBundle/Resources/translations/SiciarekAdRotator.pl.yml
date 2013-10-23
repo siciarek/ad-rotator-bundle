@@ -80,3 +80,23 @@ sale:
     starts_at: Data włączenia
     ends_at: Data wyłączenia
     path: Ścieżka
+
+click:
+    ad: Reklama
+    ip: Adres IP
+    geo: Dane geograficzne
+    browser: Przeglądarka
+    created_at: Czas
+
+
+geo:
+    host_name: Host
+    ip_address: Adres IP
+    country: Kraj
+    country_code: Kod kraju
+    region: Region
+    city: Miejscowość
+    postal_code: Kod pocz.
+    calling_code: Kod tel.
+    longitude: Lon
+    latitude: Lat

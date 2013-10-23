@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:list_array.html.twig' %}
+
+{% block field %}
+<dl class="dl-horizontal">
+    <dt>{{ 'click.browser'|trans({}, 'SiciarekAdRotator') }}</dt><dd>{{ value['Parent'] }}</dd>
+    <dt>{{ 'System' }}</dt><dd>{{ value['Platform_Description'] }}</dd>
+    <dt>Moblile</dt><dd>{{ value['isMobileDevice'] ? 'TRUE' : 'FALSE'}}</dd>
+</dl>
+{% endblock %}

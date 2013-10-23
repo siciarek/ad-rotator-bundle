@@ -22,6 +22,11 @@ services:
         tags: [{ name: sonata.admin, manager_type: orm, label: Prices }]
         arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdPrice, SonataAdminBundle:CRUD ]
 
+    sar.admin.ad_click:
+        class: Siciarek\AdRotatorBundle\Admin\AdClickAdmin
+        tags: [{ name: sonata.admin, manager_type: orm, label: Clicks }]
+        arguments: [ null, Siciarek\AdRotatorBundle\Entity\AdClick, SonataAdminBundle:CRUD ]
+
 
 sonata_admin:
     dashboard:

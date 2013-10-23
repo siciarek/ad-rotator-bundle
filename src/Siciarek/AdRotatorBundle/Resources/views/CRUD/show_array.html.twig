@@ -1,0 +1,31 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field%}
+    <dl class="dl-horizontal">
+        {% for key, val in value %}
+            <dt>{{ key }}</dt>
+            <dd>
+                {% if val is sameas(null) %}
+                    <i class="icon-ban-circle"></i>
+                {% elseif val is sameas(true) %}
+                    <i class="icon-ok"></i>
+                {% elseif val is sameas(false) %}
+                    <i class="icon-remove"></i>
+                {% else %}
+                    {{ val }}
+                {% endif %}
+            </dd>
+        {% endfor %}
+    </dl>
+{% endblock %}

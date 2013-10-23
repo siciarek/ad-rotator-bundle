@@ -1,0 +1,20 @@
+{% extends 'SonataAdminBundle:CRUD:list_array.html.twig' %}
+
+{% block field %}
+    <dl class="dl-horizontal">
+        {% for key, val in value %}
+            <dt>{{ ('geo.' ~ key)|trans({}, 'SiciarekAdRotator') }}</dt>
+            <dd>
+                {% if val is sameas(null) %}
+                    <i class="icon-ban-circle"></i>
+                {% elseif val is sameas(true) %}
+                    <i class="icon-ok"></i>
+                {% elseif val is sameas(false) %}
+                    <i class="icon-remove"></i>
+                {% else %}
+                    {{ val }}
+                {% endif %}
+            </dd>
+        {% endfor %}
+    </dl>
+{% endblock %}

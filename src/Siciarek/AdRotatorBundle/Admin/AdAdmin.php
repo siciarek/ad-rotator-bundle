@@ -182,7 +182,10 @@ IMG;
             ->addIdentifier('id', null, array('label' => 'sale.id'))
             ->addIdentifier('title', null, array('label' => 'sale.title'))
             ->add('displayed', null, array('label' => 'sale.displayed'))
-            ->add('clicked', null, array('label' => 'sale.clicked'))
+            ->add('clicked', null, array(
+                'label' => 'sale.clicked',
+                'template' => 'SiciarekAdRotatorBundle:CRUD:list_clicked.html.twig',
+            ))
             ->add('client', null, array('label' => 'sale.client'))
             ->add('type', null, array('label' => 'sale.type'))
             ->add('price', null, array('label' => 'sale.price'))
