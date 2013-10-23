@@ -9,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AdClick
 {
+    public function __toString() {
+        $str = sprintf('(%s) %s', $this->getCreatedAt()->format('Y-m-d H:i'), strval($this->getAd()));
+        return $str;
+    }
+
     /**
      * @var integer
      */
