@@ -38,7 +38,6 @@ class Ad
 
         $option = $this->getOption();
         $start = $this->getStartsAt();
-        $end = $this->getExpiresAt();
 
         $periods = array(
             'day' => 1,
