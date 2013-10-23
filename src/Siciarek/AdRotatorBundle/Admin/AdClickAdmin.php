@@ -80,16 +80,6 @@ class AdClickAdmin extends DefaultAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('ad', null, array(
-                'label' => 'click.ad',
-                'template' => 'SiciarekAdRotatorBundle:CRUD:list_array.html.twig',
-            ))
-        ;
-    }
-
     public function validate(ErrorElement $errorElement, $object)
     {
     }
