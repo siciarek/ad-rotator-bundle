@@ -105,7 +105,7 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      * @param int $type
      * @return string
      */
-    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false)
+    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false, $timeout = 30)
     {
         $params = DefaultController::getAd($type, $this->container);
         $params['static'] = $static;
@@ -115,7 +115,7 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
 
         if(self::$firstAdSet === false) {
             $jsparams = array(
-                'sarRotateAfter' => 30,
+                'sarRotateAfter' => $timeout,
                 'sarDataUrl' =>  $router->generate('_sar_data', array('type' => '__TYPE__', 'count' => '__COUNT__'), true),
                 'sarIncrementClicksUrl' => $router->generate('_sar_increment_clicks', array('slug' => '__SLUG__'), true),
             );
