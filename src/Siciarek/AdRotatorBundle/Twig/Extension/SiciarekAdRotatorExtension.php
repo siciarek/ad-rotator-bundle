@@ -105,7 +105,7 @@ class SiciarekAdRotatorExtension extends \Twig_Extension
      * @param int $type
      * @return string
      */
-    public function displayAd(\Twig_Environment $twig, $type = 1, $static = false, $timeout = 30)
+    public function displayAd(\Twig_Environment $twig, $timeout = 15, $type = 1, $static = false)
     {
         $params = DefaultController::getAd($type, $this->container);
         $params['static'] = $static;
