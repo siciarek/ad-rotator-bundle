@@ -22,6 +22,11 @@ class DefaultController extends Controller
 {
 
     protected function getGeoIpData($ip) {
+        
+        $data = array();
+
+        return $data;
+
         $html = file_get_contents(sprintf('http://www.geoiptool.com/en/?IP=%s', $ip));
         $crawler = new Crawler($html);
         $temp = $crawler->filterXPath('//table[@class="tbl_style"][3]')->html();
@@ -43,8 +48,6 @@ class DefaultController extends Controller
             }
             $tdata[$key][] = $t;
         }
-
-        $data = array();
 
         foreach($tdata as $key => $val) {
             $val = trim(implode(' ', $val));
