@@ -117,7 +117,7 @@ IMG;
         } else {
             $this->getSubject()->setType($preferred_type);
         }
-        $formMapper->end();
+        
         $formMapper->with('tabs.sale.sale');
         $formMapper->add('enabled', null, array(
             'label' => 'sale.enabled',
