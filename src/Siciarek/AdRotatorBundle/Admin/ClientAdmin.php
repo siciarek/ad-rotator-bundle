@@ -31,6 +31,7 @@ class ClientAdmin extends DefaultAdmin
             'label' => 'client.phone',
         ));
 
+        $formMapper->end();
         $formMapper->with('tabs.client.invoice_data');
         $formMapper->add('invoice_name', null, array(
             'label' => 'client.invoice_name',
@@ -90,6 +91,8 @@ class ClientAdmin extends DefaultAdmin
         $showMapper->add('phone', null, array(
             'label' => 'client.phone',
         ));
+        
+        $showMapper->end();
         $showMapper->with('tabs.client.invoice_data');
         $showMapper->add('invoice_name', null, array(
             'label' => 'client.invoice_name',
