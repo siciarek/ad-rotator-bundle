@@ -13,7 +13,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdClickAdmin extends DefaultAdmin
@@ -78,9 +77,5 @@ class AdClickAdmin extends DefaultAdmin
                 ),
             ))
         ;
-    }
-
-    public function validate(ErrorElement $errorElement, $object)
-    {
     }
 }
