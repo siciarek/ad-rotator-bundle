@@ -117,7 +117,7 @@ IMG;
         } else {
             $this->getSubject()->setType($preferred_type);
         }
-
+        $formMapper->end();
         $formMapper->with('tabs.sale.sale');
         $formMapper->add('enabled', null, array(
             'label' => 'sale.enabled',
@@ -153,6 +153,7 @@ IMG;
             'help' => $img,
         ));
 
+        $formMapper->end();
         $formMapper->with('tabs.sale.displaying_params');
         $formMapper->add('exclusive', null, array(
             'label' => 'sale.exclusive',
@@ -166,7 +167,8 @@ IMG;
             'label' => 'sale.starts_at',
             'required' => false,
         ));
-
+        
+        $formMapper->end();
         $formMapper->with('tabs.sale.url');
         $formMapper->add('path', null, array(
             'label' => 'sale.path',
