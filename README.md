@@ -11,7 +11,7 @@ https://github.com/siciarek/ad-rotator-bundle/blob/master/src/Siciarek/AdRotator
 
 ## Usage
 
-https://github.com/siciarek/ad-rotator-bundle/blob/master/src/Siciarek/AdRotatorBundle/Resources/doc/references/installation.rst
+https://github.com/siciarek/ad-rotator-bundle/blob/master/src/Siciarek/AdRotatorBundle/Resources/doc/references/usage.rst
 
 
 ## Development
